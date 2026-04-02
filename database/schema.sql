@@ -110,3 +110,10 @@ CREATE TABLE saved_faculties (
         ON DELETE CASCADE,
     CONSTRAINT unique_user_faculty UNIQUE (user_id, faculty_id)
 );
+
+--za ubrzavanje pretrage
+CREATE INDEX idx_faculty_name ON faculties(name);
+CREATE INDEX idx_faculty_city ON faculties(city);
+CREATE INDEX idx_program_field_area ON study_programs(field_area);
+CREATE INDEX idx_program_faculty_id ON study_programs(faculty_id);
+CREATE INDEX idx_deadlines_program_id ON application_deadlines(study_program_id);
