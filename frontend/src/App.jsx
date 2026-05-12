@@ -4,10 +4,14 @@ import AddFacultyForm from './components/AddFacultyForm';
 
 import FacultyCard from './components/FacultyCard';
 import FacultyDetails from './components/FacultyDetails';
+import RegisterForm from './components/RegisterForm';
+import LoginForm from './components/LoginForm';
+
 
 function App() {
   const [faculties, setFaculties] = useState([]);
   const [search, setSearch] = useState('');
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     fetch('http://localhost:5000/faculties')
@@ -22,6 +26,21 @@ function App() {
   );
   const handleFacultyAdded = (newFaculty) => {
   setFaculties([...faculties, newFaculty]);
+};
+  const handleDeleteFaculty = (id) => {
+  setFaculties(
+    faculties.filter((faculty) => faculty.id !== id)
+  );
+};
+const handleUpdateFaculty = (updatedFaculty) => {
+  setFaculties(
+    faculties.map((faculty) =>
+      faculty.id === updatedFaculty.id ? updatedFaculty : faculty
+    )
+  );
+};
+const handleLogin = (loggedUser) => {
+  setUser(loggedUser);
 };
 
   return (
@@ -44,6 +63,16 @@ function App() {
             <p style={{ textAlign: 'center', color: '#555', marginBottom: '30px' }}>
               Vodič za izbor fakulteta Univerziteta Crne Gore
             </p>
+            {user ? (
+              <p style={{ textAlign: 'center', color: '#003B71', fontWeight: 'bold' }}>
+               Prijavljeni ste kao: {user.full_name} ({user.role})
+             </p>
+            ) : (
+              <>
+            <RegisterForm />
+            <LoginForm onLogin={handleLogin} />
+             </>
+            )}
              <AddFacultyForm onFacultyAdded={handleFacultyAdded} />
             <input
               type="text"
@@ -70,7 +99,12 @@ function App() {
               }}
             >
               {filteredFaculties.map((faculty) => (
-                <FacultyCard key={faculty.id} faculty={faculty} />
+              <FacultyCard
+                key={faculty.id}
+                faculty={faculty}
+                onDelete={handleDeleteFaculty}
+                onUpdate={handleUpdateFaculty}
+              />
               ))}
             </div>
           </div>

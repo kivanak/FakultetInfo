@@ -1,14 +1,10 @@
 import { useState } from 'react';
 
-function AddFacultyForm({ onFacultyAdded }) {
+function RegisterForm() {
   const [formData, setFormData] = useState({
-    name: '',
-    university_name: 'Univerzitet Crne Gore',
-    city: '',
-    address: '',
-    type: 'drzavni',
-    description: '',
-    website_url: ''
+    full_name: '',
+    email: '',
+    password: ''
   });
 
   const [message, setMessage] = useState('');
@@ -20,7 +16,9 @@ function AddFacultyForm({ onFacultyAdded }) {
     borderRadius: '8px',
     border: '1px solid #ccc',
     fontSize: '15px',
-    boxSizing: 'border-box'
+    boxSizing: 'border-box',
+    backgroundColor: 'white', 
+    color: '#222'
   };
 
   const handleChange = (e) => {
@@ -35,7 +33,7 @@ function AddFacultyForm({ onFacultyAdded }) {
     setMessage('');
 
     try {
-      const response = await fetch('http://localhost:5000/faculties', {
+      const response = await fetch('http://localhost:5000/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -43,26 +41,21 @@ function AddFacultyForm({ onFacultyAdded }) {
         body: JSON.stringify(formData)
       });
 
+      const data = await response.json();
+
       if (!response.ok) {
-        setMessage('Greška pri dodavanju fakulteta.');
+        setMessage(data.message || 'Greška pri registraciji.');
         return;
       }
 
-      const newFaculty = await response.json();
-
-      onFacultyAdded(newFaculty);
+      setMessage('Registracija uspješna.');
 
       setFormData({
-        name: '',
-        university_name: 'Univerzitet Crne Gore',
-        city: '',
-        address: '',
-        type: 'drzavni',
-        description: '',
-        website_url: ''
+        full_name: '',
+        email: '',
+        password: ''
       });
 
-      setMessage('Fakultet je uspješno dodat.');
     } catch (err) {
       console.error(err);
       setMessage('Server nije dostupan.');
@@ -77,60 +70,41 @@ function AddFacultyForm({ onFacultyAdded }) {
         padding: '25px',
         borderRadius: '12px',
         boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-        marginBottom: '35px',
-        maxWidth: '700px',
-        marginLeft: 'auto',
-        marginRight: 'auto'
+        maxWidth: '450px',
+        margin: '30px auto'
       }}
     >
       <h2 style={{ color: '#003B71', marginTop: 0 }}>
-        Dodaj fakultet
+        Registracija
       </h2>
 
       <input
         style={inputStyle}
-        name="name"
-        placeholder="Naziv fakulteta"
-        value={formData.name}
+        name="full_name"
+        placeholder="Ime i prezime"
+        value={formData.full_name}
         onChange={handleChange}
         required
       />
 
       <input
         style={inputStyle}
-        name="city"
-        placeholder="Grad"
-        value={formData.city}
+        name="email"
+        type="email"
+        placeholder="Email"
+        value={formData.email}
         onChange={handleChange}
         required
       />
 
       <input
         style={inputStyle}
-        name="address"
-        placeholder="Adresa"
-        value={formData.address}
+        name="password"
+        type="password"
+        placeholder="Lozinka"
+        value={formData.password}
         onChange={handleChange}
-      />
-
-      <textarea
-        style={{
-          ...inputStyle,
-          minHeight: '90px',
-          resize: 'vertical'
-        }}
-        name="description"
-        placeholder="Opis fakulteta"
-        value={formData.description}
-        onChange={handleChange}
-      />
-
-      <input
-        style={inputStyle}
-        name="website_url"
-        placeholder="Link sajta"
-        value={formData.website_url}
-        onChange={handleChange}
+        required
       />
 
       <button
@@ -142,10 +116,11 @@ function AddFacultyForm({ onFacultyAdded }) {
           padding: '12px 18px',
           borderRadius: '8px',
           fontWeight: 'bold',
-          cursor: 'pointer'
+          cursor: 'pointer',
+          width: '100%'
         }}
       >
-        Dodaj fakultet
+        Registruj se
       </button>
 
       {message && (
@@ -157,4 +132,4 @@ function AddFacultyForm({ onFacultyAdded }) {
   );
 }
 
-export default AddFacultyForm;
+export default RegisterForm;
