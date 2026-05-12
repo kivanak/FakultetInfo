@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-function FacultyCard({ faculty, onDelete, onUpdate }) {
+function FacultyCard({ faculty, onDelete, onUpdate, isAdmin }) {
   const handleDelete = async () => {
     const confirmed = window.confirm(
       'Da li ste sigurni da želite obrisati fakultet?'
@@ -99,36 +99,40 @@ function FacultyCard({ faculty, onDelete, onUpdate }) {
           Detalji
         </Link>
 
-        <button
-          onClick={handleEdit}
-          style={{
-            padding: '10px 14px',
-            backgroundColor: '#f9a825',
-            color: 'white',
-            border: 'none',
-            borderRadius: '8px',
-            fontWeight: 'bold',
-            cursor: 'pointer'
-          }}
-        >
-          Izmijeni
-        </button>
+        {isAdmin && (
+  <>
+    <button
+      onClick={handleEdit}
+      style={{
+        padding: '10px 14px',
+        backgroundColor: '#f9a825',
+        color: 'white',
+        border: 'none',
+        borderRadius: '8px',
+        fontWeight: 'bold',
+        cursor: 'pointer'
+      }}
+    >
+      Izmijeni
+    </button>
 
-        <button
-          onClick={handleDelete}
-          style={{
-            padding: '10px 14px',
-            backgroundColor: '#c62828',
-            color: 'white',
-            border: 'none',
-            borderRadius: '8px',
-            fontWeight: 'bold',
-            cursor: 'pointer'
-          }}
-        >
-          Obriši
-        </button>
-      </div>
+    <button
+      onClick={handleDelete}
+      style={{
+        padding: '10px 14px',
+        backgroundColor: '#c62828',
+        color: 'white',
+        border: 'none',
+        borderRadius: '8px',
+        fontWeight: 'bold',
+        cursor: 'pointer'
+      }}
+    >
+      Obriši
+    </button>
+  </>
+   )}
+    </div>
     </div>
   );
 }
