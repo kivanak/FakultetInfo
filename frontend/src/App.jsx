@@ -6,11 +6,17 @@ import FacultyCard from './components/FacultyCard';
 import FacultyDetails from './components/FacultyDetails';
 import RegisterForm from './components/RegisterForm';
 import LoginForm from './components/LoginForm';
+import Navbar from './components/Navbar';
+import MontenegroMap from './components/MontenegroMap';
+import FilterPanel from './components/FilterPanel';
+
+import HomePage from './pages/HomePage';
 
 function App() {
   const [faculties, setFaculties] = useState([]);
   const [search, setSearch] = useState('');
   const [user, setUser] = useState(null);
+  const [cityFilter, setCityFilter] = useState('');
 
   useEffect(() => {
     fetch('http://localhost:5000/faculties')
@@ -25,10 +31,16 @@ function App() {
     }
   }, []);
 
-  const filteredFaculties = faculties.filter((faculty) =>
-    faculty.name.toLowerCase().includes(search.toLowerCase()) ||
-    faculty.city.toLowerCase().includes(search.toLowerCase())
-  );
+  const filteredFaculties = faculties.filter((faculty) => {
+    const matchesSearch =
+      faculty.name.toLowerCase().includes(search.toLowerCase()) ||
+      faculty.description.toLowerCase().includes(search.toLowerCase());
+
+    const matchesCity =
+      cityFilter === '' || faculty.city === cityFilter;
+
+    return matchesSearch && matchesCity;
+  });
 
   const handleFacultyAdded = (newFaculty) => {
     setFaculties([...faculties, newFaculty]);
@@ -58,104 +70,120 @@ function App() {
     setUser(null);
   };
 
+  const handleCityClick = (cityName) => {
+    setCityFilter(cityName);
+  };
+
   return (
-    <Routes>
-      <Route
-        path="/"
-        element={
-          <div
-            style={{
-              minHeight: '100vh',
-              backgroundColor: '#f4f7fb',
-              padding: '40px',
-              fontFamily: 'Arial'
-            }}
-          >
-            <h1 style={{ textAlign: 'center', color: '#003B71' }}>
-              FakultetInfo
-            </h1>
+    <div
+      style={{
+        minHeight: '100vh',
+        backgroundColor: '#eef4fb',
+        fontFamily: 'Arial'
+      }}
+    >
+      <Navbar user={user} onLogout={handleLogout} />
 
-            <p style={{ textAlign: 'center', color: '#555', marginBottom: '30px' }}>
-              Vodič za izbor fakulteta Univerziteta Crne Gore
-            </p>
+      <Routes>
+        <Route
+          path="/"
+          element={<HomePage />}
+        />
 
-            {user ? (
-              <div style={{ textAlign: 'center', marginBottom: '25px' }}>
-                <p style={{ color: '#003B71', fontWeight: 'bold' }}>
-                  Prijavljeni ste kao: {user.full_name} ({user.role})
-                </p>
-
-                <button
-                  onClick={handleLogout}
-                  style={{
-                    backgroundColor: '#c62828',
-                    color: 'white',
-                    border: 'none',
-                    padding: '10px 16px',
-                    borderRadius: '8px',
-                    fontWeight: 'bold',
-                    cursor: 'pointer'
-                  }}
-                >
-                  Odjavi se
-                </button>
-              </div>
-            ) : (
-              <>
-                <RegisterForm />
-                <LoginForm onLogin={handleLogin} />
-              </>
-            )}
-
-            {user?.role === 'admin' && (
-              <AddFacultyForm onFacultyAdded={handleFacultyAdded} />
-            )}
-
-            <input
-              type="text"
-              placeholder="Pretraži po nazivu ili gradu..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
+        <Route
+          path="/faculties"
+          element={
+            <main
               style={{
-                display: 'block',
-                width: '100%',
-                maxWidth: '500px',
-                margin: '0 auto 35px',
-                padding: '12px',
-                borderRadius: '8px',
-                border: '1px solid #ccc',
-                fontSize: '16px',
-                backgroundColor: 'white',
-                color: '#222'
-              }}
-            />
-
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-                gap: '20px'
+                maxWidth: '1250px',
+                margin: '0 auto',
+                padding: '40px 30px 50px'
               }}
             >
-              {filteredFaculties.map((faculty) => (
-                <FacultyCard
-                  key={faculty.id}
-                  faculty={faculty}
-                  onDelete={handleDeleteFaculty}
-                  onUpdate={handleUpdateFaculty}
-                  isAdmin={user?.role === 'admin'}
-                />
-              ))}
-            </div>
-          </div>
-        }
-      />
+              {!user && (
+                <section
+                  style={{
+                    display: 'grid',
+                    gridTemplateColumns: '1fr 1fr',
+                    gap: '20px',
+                    marginBottom: '30px'
+                  }}
+                >
+                  <RegisterForm />
+                  <LoginForm onLogin={handleLogin} />
+                </section>
+              )}
 
-      <Route
-        path="/faculties/:id"
-        element={<FacultyDetails faculties={faculties} />}
-      />
-    </Routes>
+              {user?.role === 'admin' && (
+                <section style={{ marginBottom: '30px' }}>
+                  <AddFacultyForm onFacultyAdded={handleFacultyAdded} />
+                </section>
+              )}
+
+              <FilterPanel
+                search={search}
+                setSearch={setSearch}
+                cityFilter={cityFilter}
+                setCityFilter={setCityFilter}
+              />
+
+              <section
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: '1fr 420px',
+                  gap: '25px',
+                  alignItems: 'start'
+                }}
+              >
+                <div>
+                  <div
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      marginBottom: '18px'
+                    }}
+                  >
+                    <h2 style={{ color: '#003B71', margin: 0 }}>
+                      Fakulteti
+                    </h2>
+
+                    <span style={{ color: '#666' }}>
+                      Pronađeno: {filteredFaculties.length}
+                    </span>
+                  </div>
+
+                  <div
+                    style={{
+                      display: 'grid',
+                      gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+                      gap: '20px'
+                    }}
+                  >
+                    {filteredFaculties.map((faculty) => (
+                      <FacultyCard
+                        key={faculty.id}
+                        faculty={faculty}
+                        onDelete={handleDeleteFaculty}
+                        onUpdate={handleUpdateFaculty}
+                        isAdmin={user?.role === 'admin'}
+                      />
+                    ))}
+                  </div>
+                </div>
+
+                <MontenegroMap onCityClick={handleCityClick} />
+              </section>
+            </main>
+          }
+        />
+
+        <Route
+          path="/faculties/:id"
+          element={<FacultyDetails faculties={faculties} />}
+        />
+      </Routes>
+    </div>
   );
 }
 
