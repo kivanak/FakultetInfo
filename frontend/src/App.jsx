@@ -1,16 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 
-import AddFacultyForm from './components/AddFacultyForm';
-import FacultyCard from './components/FacultyCard';
-import FacultyDetails from './components/FacultyDetails';
-import RegisterForm from './components/RegisterForm';
-import LoginForm from './components/LoginForm';
 import Navbar from './components/Navbar';
-import MontenegroMap from './components/MontenegroMap';
-import FilterPanel from './components/FilterPanel';
+import FacultyDetails from './components/FacultyDetails';
 
 import HomePage from './pages/HomePage';
+import FacultiesPage from './pages/FacultiesPage';
 
 function App() {
   const [faculties, setFaculties] = useState([]);
@@ -79,7 +74,7 @@ function App() {
       style={{
         minHeight: '100vh',
         backgroundColor: '#eef4fb',
-        fontFamily: 'Arial'
+        fontFamily: 'Inter, Arial, sans-serif'
       }}
     >
       <Navbar user={user} onLogout={handleLogout} />
@@ -87,94 +82,27 @@ function App() {
       <Routes>
         <Route
           path="/"
-          element={<HomePage />}
+          element={
+            <HomePage faculties={faculties} />
+          }
         />
 
         <Route
           path="/faculties"
           element={
-            <main
-              style={{
-                maxWidth: '1250px',
-                margin: '0 auto',
-                padding: '40px 30px 50px'
-              }}
-            >
-              {!user && (
-                <section
-                  style={{
-                    display: 'grid',
-                    gridTemplateColumns: '1fr 1fr',
-                    gap: '20px',
-                    marginBottom: '30px'
-                  }}
-                >
-                  <RegisterForm />
-                  <LoginForm onLogin={handleLogin} />
-                </section>
-              )}
-
-              {user?.role === 'admin' && (
-                <section style={{ marginBottom: '30px' }}>
-                  <AddFacultyForm onFacultyAdded={handleFacultyAdded} />
-                </section>
-              )}
-
-              <FilterPanel
-                search={search}
-                setSearch={setSearch}
-                cityFilter={cityFilter}
-                setCityFilter={setCityFilter}
-              />
-
-              <section
-                style={{
-                  display: 'grid',
-                  gridTemplateColumns: '1fr 420px',
-                  gap: '25px',
-                  alignItems: 'start'
-                }}
-              >
-                <div>
-                  <div
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                      marginBottom: '18px'
-                    }}
-                  >
-                    <h2 style={{ color: '#003B71', margin: 0 }}>
-                      Fakulteti
-                    </h2>
-
-                    <span style={{ color: '#666' }}>
-                      Pronađeno: {filteredFaculties.length}
-                    </span>
-                  </div>
-
-                  <div
-                    style={{
-                      display: 'grid',
-                      gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-                      gap: '20px'
-                    }}
-                  >
-                    {filteredFaculties.map((faculty) => (
-                      <FacultyCard
-                        key={faculty.id}
-                        faculty={faculty}
-                        onDelete={handleDeleteFaculty}
-                        onUpdate={handleUpdateFaculty}
-                        isAdmin={user?.role === 'admin'}
-                      />
-                    ))}
-                  </div>
-                </div>
-
-                <MontenegroMap onCityClick={handleCityClick} />
-              </section>
-            </main>
+            <FacultiesPage
+               user={user}
+               search={search}
+               setSearch={setSearch}
+               cityFilter={cityFilter}
+               setCityFilter={setCityFilter}
+               filteredFaculties={filteredFaculties}
+               onLogin={handleLogin}
+               onFacultyAdded={handleFacultyAdded}
+               onDeleteFaculty={handleDeleteFaculty}
+               onUpdateFaculty={handleUpdateFaculty}
+               onCityClick={handleCityClick}
+            />
           }
         />
 

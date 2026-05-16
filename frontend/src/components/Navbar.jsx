@@ -1,4 +1,16 @@
+import { NavLink } from 'react-router-dom';
+
 function Navbar({ user, onLogout }) {
+  const linkStyle = ({ isActive }) => ({
+    textDecoration: 'none',
+    backgroundColor: isActive ? '#003B71' : 'transparent',
+    color: isActive ? 'white' : '#444',
+    padding: '10px 16px',
+    borderRadius: '10px',
+    fontWeight: 'bold',
+    fontSize: '15px'
+  });
+
   return (
     <nav
       style={{
@@ -21,22 +33,28 @@ function Navbar({ user, onLogout }) {
           gap: '12px'
         }}
       >
-        <div
-          style={{
-            width: '42px',
-            height: '42px',
-            borderRadius: '12px',
-            backgroundColor: '#e8f1fb',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: '#003B71',
-            fontWeight: 'bold',
-            fontSize: '18px'
-          }}
-        >
-          🎓
-        </div>
+       <div
+  style={{
+    width: '48px',
+    height: '48px',
+    borderRadius: '12px',
+    backgroundColor: '#e8f1fb',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    overflow: 'hidden'
+  }}
+       >
+          <img
+           src="/images/logo/ucg.png"
+         alt="UCG logo"
+        style={{
+        width: '34px',
+         height: '34px',
+         objectFit: 'contain'
+            }}
+           />
+          </div>
 
         <div>
           <h2
@@ -68,37 +86,13 @@ function Navbar({ user, onLogout }) {
           gap: '15px'
         }}
       >
-        <button
-  onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-  style={{
-    backgroundColor: 'transparent',
-    border: 'none',
-    color: '#444',
-    fontWeight: 'bold',
-    cursor: 'pointer',
-    fontSize: '15px'
-  }}
->
-  Početna
-</button>
+        <NavLink to="/" style={linkStyle}>
+          Početna
+        </NavLink>
 
-<button
-  onClick={() => {
-    document
-      .getElementById('faculties-section')
-      ?.scrollIntoView({ behavior: 'smooth' });
-  }}
-  style={{
-    backgroundColor: 'transparent',
-    border: 'none',
-    color: '#444',
-    fontWeight: 'bold',
-    cursor: 'pointer',
-    fontSize: '15px'
-  }}
->
-  Fakulteti
-</button>
+        <NavLink to="/faculties" style={linkStyle}>
+          Fakulteti
+        </NavLink>
 
         {user ? (
           <>
@@ -132,33 +126,34 @@ function Navbar({ user, onLogout }) {
           </>
         ) : (
           <>
-            <button
+            <NavLink
+              to="/faculties"
               style={{
+                textDecoration: 'none',
                 backgroundColor: 'transparent',
                 border: '1px solid #003B71',
                 color: '#003B71',
                 padding: '10px 16px',
                 borderRadius: '10px',
-                fontWeight: 'bold',
-                cursor: 'pointer'
+                fontWeight: 'bold'
               }}
             >
               Prijava
-            </button>
+            </NavLink>
 
-            <button
+            <NavLink
+              to="/faculties"
               style={{
+                textDecoration: 'none',
                 backgroundColor: '#003B71',
                 color: 'white',
-                border: 'none',
                 padding: '10px 16px',
                 borderRadius: '10px',
-                fontWeight: 'bold',
-                cursor: 'pointer'
+                fontWeight: 'bold'
               }}
             >
               Registracija
-            </button>
+            </NavLink>
           </>
         )}
       </div>
