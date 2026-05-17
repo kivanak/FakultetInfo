@@ -1,0 +1,71 @@
+.nav-link {
+  text-decoration: none;
+  background-color: white;
+  color: #003B71;
+  padding: 12px 18px;
+  border-radius: 12px;
+  font-weight: bold;
+  font-size: 15px;
+  border: 1px solid transparent;
+  transition: 0.25s ease;
+}
+
+.nav-link:hover {
+  background-color: #003B71;
+  color: white;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 59, 113, 0.2);
+}
+
+.nav-link.active {
+  background-color: #003B71;
+  color: white;
+  border: 1px solid #003B71;
+}
+
+.nav-link.active:hover {
+  background-color: white;
+  color: #003B71;
+  border: 1px solid #003B71;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 59, 113, 0.2);
+}
+
+.nav-auth-button {
+  text-decoration: none;
+  background-color: white;
+  color: #003B71;
+  border: 1px solid #003B71;
+  padding: 12px 18px;
+  border-radius: 12px;
+  font-weight: bold;
+  font-size: 15px;
+  transition: 0.25s ease;
+}
+
+.nav-auth-button:hover {
+  background-color: #003B71;
+  color: white;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 59, 113, 0.2);
+}
+
+.nav-auth-button-filled {
+  text-decoration: none;
+  background-color: #003B71;
+  color: white;
+  border: 1px solid #003B71;
+  padding: 12px 18px;
+  border-radius: 12px;
+  font-weight: bold;
+  font-size: 15px;
+  transition: 0.25s ease;
+}
+
+.nav-auth-button-filled:hover {
+  background-color: white;
+  color: #003B71;
+  border: 1px solid #003B71;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 59, 113, 0.25);
+}

@@ -1,4 +1,6 @@
 import { NavLink } from 'react-router-dom';
+import './Navbar.css';
+
 
 function Navbar({ user, onLogout }) {
   const linkStyle = ({ isActive }) => ({
@@ -86,13 +88,23 @@ function Navbar({ user, onLogout }) {
           gap: '15px'
         }}
       >
-        <NavLink to="/" style={linkStyle}>
-          Početna
-        </NavLink>
+       <NavLink
+  to="/"
+  className={({ isActive }) =>
+    isActive ? 'nav-link active' : 'nav-link'
+  }
+>
+  Početna
+</NavLink>
 
-        <NavLink to="/faculties" style={linkStyle}>
-          Fakulteti
-        </NavLink>
+<NavLink
+  to="/faculties"
+  className={({ isActive }) =>
+    isActive ? 'nav-link active' : 'nav-link'
+  }
+>
+  Fakulteti
+</NavLink>
 
         {user ? (
           <>
@@ -126,34 +138,13 @@ function Navbar({ user, onLogout }) {
           </>
         ) : (
           <>
-            <NavLink
-              to="/faculties"
-              style={{
-                textDecoration: 'none',
-                backgroundColor: 'transparent',
-                border: '1px solid #003B71',
-                color: '#003B71',
-                padding: '10px 16px',
-                borderRadius: '10px',
-                fontWeight: 'bold'
-              }}
-            >
-              Prijava
-            </NavLink>
+            <NavLink to="/faculties" className="nav-auth-button">
+  Prijava
+</NavLink>
 
-            <NavLink
-              to="/faculties"
-              style={{
-                textDecoration: 'none',
-                backgroundColor: '#003B71',
-                color: 'white',
-                padding: '10px 16px',
-                borderRadius: '10px',
-                fontWeight: 'bold'
-              }}
-            >
-              Registracija
-            </NavLink>
+<NavLink to="/faculties" className="nav-auth-button-filled">
+  Registracija
+</NavLink>
           </>
         )}
       </div>

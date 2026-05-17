@@ -11,14 +11,15 @@ function RegisterForm() {
 
   const inputStyle = {
     width: '100%',
-    padding: '12px',
-    marginBottom: '12px',
-    borderRadius: '8px',
-    border: '1px solid #ccc',
+    padding: '14px 16px',
+    marginBottom: '14px',
+    borderRadius: '12px',
+    border: '1px solid #cbd5e1',
     fontSize: '15px',
     boxSizing: 'border-box',
-    backgroundColor: 'white', 
-    color: '#222'
+    backgroundColor: 'white',
+    color: '#0f172a',
+    outline: 'none'
   };
 
   const handleChange = (e) => {
@@ -55,7 +56,6 @@ function RegisterForm() {
         email: '',
         password: ''
       });
-
     } catch (err) {
       console.error(err);
       setMessage('Server nije dostupan.');
@@ -67,16 +67,31 @@ function RegisterForm() {
       onSubmit={handleSubmit}
       style={{
         backgroundColor: 'white',
-        padding: '25px',
-        borderRadius: '12px',
-        boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-        maxWidth: '450px',
-        margin: '30px auto'
+        padding: '28px',
+        borderRadius: '18px',
+        boxShadow: '0 10px 28px rgba(15, 23, 42, 0.08)',
+        border: '1px solid #e5e7eb'
       }}
     >
-      <h2 style={{ color: '#003B71', marginTop: 0 }}>
+      <h2
+        style={{
+          color: '#003B71',
+          margin: '0 0 6px',
+          fontSize: '26px'
+        }}
+      >
         Registracija
       </h2>
+
+      <p
+        style={{
+          color: '#64748b',
+          margin: '0 0 22px',
+          fontSize: '14px'
+        }}
+      >
+        Napravite nalog za korišćenje dodatnih opcija.
+      </p>
 
       <input
         style={inputStyle}
@@ -113,18 +128,27 @@ function RegisterForm() {
           backgroundColor: '#003B71',
           color: 'white',
           border: 'none',
-          padding: '12px 18px',
-          borderRadius: '8px',
+          padding: '13px 18px',
+          borderRadius: '12px',
           fontWeight: 'bold',
           cursor: 'pointer',
-          width: '100%'
+          width: '100%',
+          fontSize: '15px',
+          boxShadow: '0 8px 20px rgba(0, 59, 113, 0.18)'
         }}
       >
         Registruj se
       </button>
 
       {message && (
-        <p style={{ marginTop: '15px', color: '#003B71', fontWeight: 'bold' }}>
+        <p
+          style={{
+            margin: '15px 0 0',
+            color: '#003B71',
+            fontWeight: 'bold',
+            fontSize: '14px'
+          }}
+        >
           {message}
         </p>
       )}

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import './HomePage.css';
 
 function HomePage({ faculties }) {
-    const featuredFaculties = useMemo(() => {
+  const featuredFaculties = useMemo(() => {
   const copiedFaculties = [...faculties];
   const selectedFaculties = [];
 
@@ -165,7 +165,7 @@ function HomePage({ faculties }) {
               gap: '24px'
             }}
           >
-            {featuredFaculties.map((faculty) => (
+            {faculties.slice(0, 3).map((faculty) => (
               <div
                 key={faculty.id}
                 style={{
@@ -176,7 +176,7 @@ function HomePage({ faculties }) {
                 }}
               >
                <img
-                src={faculty.cover_image}
+                src={faculty.cover_image || '/images/faculties/default.jpg'}
                 alt={faculty.name}
                 loading="lazy"
                 style={{
