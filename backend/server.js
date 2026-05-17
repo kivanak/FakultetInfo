@@ -62,6 +62,26 @@ app.get('/faculties/:id', async (req, res) => {
   }
 });
 
+// studijski programi za jedan fakultet
+app.get('/faculties/:id/programs', async (req, res) => {
+  try {
+    const id = req.params.id;
+
+    const result = await pool.query(
+      `SELECT *
+       FROM study_programs
+       WHERE faculty_id = $1
+       ORDER BY degree_level, name`,
+      [id]
+    );
+
+    res.json(result.rows);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Greška pri učitavanju studijskih programa.');
+  }
+});
+
 // dodavanje novog fakulteta
 app.post('/faculties', async (req, res) => {
   try {
