@@ -6,8 +6,13 @@
   border-radius: 12px;
   font-weight: bold;
   font-size: 15px;
-  border: 1px solid transparent;
+  border: 1px solid #e5e7eb;
   transition: 0.25s ease;
+  min-height: 50px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
 }
 
 .nav-link:hover {
@@ -15,6 +20,7 @@
   color: white;
   transform: translateY(-3px);
   box-shadow: 0 8px 20px rgba(0, 59, 113, 0.2);
+  border: 1px solid #003B71;
 }
 
 .nav-link.active {
@@ -41,6 +47,11 @@
   font-weight: bold;
   font-size: 15px;
   transition: 0.25s ease;
+  min-height: 50px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
 }
 
 .nav-auth-button:hover {
@@ -60,6 +71,12 @@
   font-weight: bold;
   font-size: 15px;
   transition: 0.25s ease;
+  cursor: pointer;
+  min-height: 50px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
 }
 
 .nav-auth-button-filled:hover {
@@ -68,4 +85,18 @@
   border: 1px solid #003B71;
   transform: translateY(-3px);
   box-shadow: 0 8px 20px rgba(0, 59, 113, 0.25);
+}
+
+.nav-user-badge {
+  background-color: #eef4fb;
+  color: #003B71;
+  padding: 12px 18px;
+  border-radius: 12px;
+  font-weight: bold;
+  font-size: 15px;
+  min-height: 50px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
 }

@@ -87,6 +87,89 @@ app.get('/faculties/:id/reviews', async (req, res) => {
     res.status(500).send('Greška pri učitavanju recenzija.');
   }
 });
+// sacuvani fakulteti za korisnika
+app.get('/users/:id/saved-faculties', async (req, res) => {
+  try {
+    const userId = req.params.id;
+
+    const result = await pool.query(
+      `SELECT faculties.*
+       FROM saved_faculties
+       JOIN faculties ON saved_faculties.faculty_id = faculties.id
+       WHERE saved_faculties.user_id = $1
+       ORDER BY saved_faculties.saved_at DESC`,
+      [userId]
+    );
+
+    res.json(result.rows);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Greška pri učitavanju sačuvanih fakulteta.');
+  }
+});
+
+// cuvanje fakulteta
+app.post('/saved-faculties', async (req, res) => {
+  try {
+    const { user_id, faculty_id } = req.body;
+
+    if (!user_id || !faculty_id) {
+      return res.status(400).json({
+        message: 'Korisnik i fakultet su obavezni.'
+      });
+    }
+
+    const result = await pool.query(
+      `INSERT INTO saved_faculties
+       (user_id, faculty_id)
+       VALUES ($1, $2)
+       ON CONFLICT (user_id, faculty_id) DO NOTHING
+       RETURNING *`,
+      [user_id, faculty_id]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(200).json({
+        message: 'Fakultet je već sačuvan.'
+      });
+    }
+
+    res.status(201).json({
+      message: 'Fakultet je sačuvan.',
+      saved: result.rows[0]
+    });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Greška pri čuvanju fakulteta.');
+  }
+});
+
+// uklanjanje sacuvanog fakulteta
+app.delete('/saved-faculties/:userId/:facultyId', async (req, res) => {
+  try {
+    const { userId, facultyId } = req.params;
+
+    const result = await pool.query(
+      `DELETE FROM saved_faculties
+       WHERE user_id = $1 AND faculty_id = $2
+       RETURNING *`,
+      [userId, facultyId]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({
+        message: 'Sačuvani fakultet nije pronađen.'
+      });
+    }
+
+    res.json({
+      message: 'Fakultet je uklonjen iz sačuvanih.'
+    });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Greška pri uklanjanju fakulteta.');
+  }
+});
 
 // dodavanje recenzije
 app.post('/faculties/:id/reviews', async (req, res) => {
@@ -360,7 +443,7 @@ app.post('/login', async (req, res) => {
 });
 // pokretanje servera
 const PORT = 5000;
-
+console.log('BACKEND SA SAVED FACULTIES RUTAMA JE POKRENUT');
 app.listen(PORT, () => {
   console.log(`Server pokrenut na portu ${PORT}`);
 });

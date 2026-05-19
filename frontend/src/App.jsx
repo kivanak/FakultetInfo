@@ -8,6 +8,7 @@ import HomePage from './pages/HomePage';
 import FacultiesPage from './pages/FacultiesPage';
 
 import RecommendationPage from './pages/RecommendationPage';
+import SavedFacultiesPage from './pages/SavedFacultiesPage';
 
 function App() {
   const [faculties, setFaculties] = useState([]);
@@ -114,6 +115,12 @@ function App() {
       user={user}
       faculties={faculties}
     />
+  }
+/>
+<Route
+  path="/saved"
+  element={
+    <SavedFacultiesPage user={user} />
   }
 />
         <Route

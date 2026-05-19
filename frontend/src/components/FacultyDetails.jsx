@@ -8,12 +8,15 @@ function FacultyDetails({ faculties, user }) {
   const [loadingPrograms, setLoadingPrograms] = useState(true);
 
   const [reviews, setReviews] = useState([]);
-const [loadingReviews, setLoadingReviews] = useState(true);
-const [reviewData, setReviewData] = useState({
-  rating: '5',
-  comment: ''
-});
-const [reviewMessage, setReviewMessage] = useState('');
+  const [loadingReviews, setLoadingReviews] = useState(true);
+  const [reviewData, setReviewData] = useState({
+    rating: '5',
+    comment: ''
+  });
+  const [reviewMessage, setReviewMessage] = useState('');
+
+  const [isSaved, setIsSaved] = useState(false);
+  const [saveMessage, setSaveMessage] = useState('');
 
   const faculty = faculties.find((f) => f.id === Number(id));
 
@@ -31,17 +34,32 @@ const [reviewMessage, setReviewMessage] = useState('');
   }, [id]);
 
   useEffect(() => {
-  fetch(`http://localhost:5000/faculties/${id}/reviews`)
-    .then((res) => res.json())
-    .then((data) => {
-      setReviews(data);
-      setLoadingReviews(false);
-    })
-    .catch((err) => {
-      console.error(err);
-      setLoadingReviews(false);
-    });
-}, [id]);
+    fetch(`http://localhost:5000/faculties/${id}/reviews`)
+      .then((res) => res.json())
+      .then((data) => {
+        setReviews(data);
+        setLoadingReviews(false);
+      })
+      .catch((err) => {
+        console.error(err);
+        setLoadingReviews(false);
+      });
+  }, [id]);
+
+  useEffect(() => {
+    if (!user) return;
+
+    fetch(`http://localhost:5000/users/${user.id}/saved-faculties`)
+      .then((res) => res.json())
+      .then((data) => {
+        const alreadySaved = data.some(
+          (savedFaculty) => savedFaculty.id === Number(id)
+        );
+
+        setIsSaved(alreadySaved);
+      })
+      .catch((err) => console.error(err));
+  }, [user, id]);
 
   const osnovnePrograms = programs.filter(
     (program) => program.degree_level === 'osnovne'
@@ -56,60 +74,217 @@ const [reviewMessage, setReviewMessage] = useState('');
   );
 
   const handleReviewChange = (e) => {
-  setReviewData({
-    ...reviewData,
-    [e.target.name]: e.target.value
-  });
-};
+    setReviewData({
+      ...reviewData,
+      [e.target.name]: e.target.value
+    });
+  };
 
-const handleReviewSubmit = async (e) => {
-  e.preventDefault();
-  setReviewMessage('');
+  const handleReviewSubmit = async (e) => {
+    e.preventDefault();
+    setReviewMessage('');
 
-  if (!user) {
-    setReviewMessage('Morate biti prijavljeni da biste ostavili recenziju.');
-    return;
-  }
-
-  try {
-    const response = await fetch(
-      `http://localhost:5000/faculties/${id}/reviews`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          user_id: user.id,
-          rating: Number(reviewData.rating),
-          comment: reviewData.comment
-        })
-      }
-    );
-
-    if (!response.ok) {
-      setReviewMessage('Greška pri dodavanju recenzije.');
+    if (!user) {
+      setReviewMessage('Morate biti prijavljeni da biste ostavili recenziju.');
       return;
     }
 
-    setReviewData({
-      rating: '5',
-      comment: ''
-    });
+    try {
+      const response = await fetch(
+        `http://localhost:5000/faculties/${id}/reviews`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            user_id: user.id,
+            rating: Number(reviewData.rating),
+            comment: reviewData.comment
+          })
+        }
+      );
 
-    setReviewMessage('Recenzija je uspješno dodata.');
+      if (!response.ok) {
+        setReviewMessage('Greška pri dodavanju recenzije.');
+        return;
+      }
 
-    const reviewsResponse = await fetch(
-      `http://localhost:5000/faculties/${id}/reviews`
+      setReviewData({
+        rating: '5',
+        comment: ''
+      });
+
+      setReviewMessage('Recenzija je uspješno dodata.');
+
+      const reviewsResponse = await fetch(
+        `http://localhost:5000/faculties/${id}/reviews`
+      );
+
+      const reviewsData = await reviewsResponse.json();
+      setReviews(reviewsData);
+    } catch (err) {
+      console.error(err);
+      setReviewMessage('Server nije dostupan.');
+    }
+  };
+
+  const handleSaveFaculty = async () => {
+    setSaveMessage('');
+
+    if (!user) {
+      setSaveMessage('Morate biti prijavljeni da biste sačuvali fakultet.');
+      return;
+    }
+
+    try {
+      if (isSaved) {
+        const response = await fetch(
+          `http://localhost:5000/saved-faculties/${user.id}/${id}`,
+          {
+            method: 'DELETE'
+          }
+        );
+
+        if (!response.ok) {
+          setSaveMessage('Greška pri uklanjanju fakulteta.');
+          return;
+        }
+
+        setIsSaved(false);
+        setSaveMessage('Fakultet je uklonjen iz sačuvanih.');
+      } else {
+        const response = await fetch('http://localhost:5000/saved-faculties', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            user_id: user.id,
+            faculty_id: Number(id)
+          })
+        });
+
+        if (!response.ok) {
+          setSaveMessage('Greška pri čuvanju fakulteta.');
+          return;
+        }
+
+        setIsSaved(true);
+        setSaveMessage('Fakultet je sačuvan.');
+      }
+    } catch (err) {
+      console.error(err);
+      setSaveMessage('Server nije dostupan.');
+    }
+  };
+
+  const renderPrograms = (title, items) => {
+    if (items.length === 0) return null;
+
+    return (
+      <div
+        style={{
+          marginTop: '26px'
+        }}
+      >
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginBottom: '16px'
+          }}
+        >
+          <h3
+            style={{
+              color: '#003B71',
+              margin: 0,
+              fontSize: '21px',
+              fontWeight: '800'
+            }}
+          >
+            {title}
+          </h3>
+
+          <span
+            style={{
+              backgroundColor: '#e8f1fb',
+              color: '#003B71',
+              padding: '6px 12px',
+              borderRadius: '999px',
+              fontSize: '12px',
+              fontWeight: 'bold'
+            }}
+          >
+            {items.length} programa
+          </span>
+        </div>
+
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+            gap: '16px'
+          }}
+        >
+          {items.map((program) => (
+            <div
+              key={program.id}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'translateY(-5px)';
+                e.currentTarget.style.boxShadow =
+                  '0 16px 35px rgba(15, 23, 42, 0.12)';
+                e.currentTarget.style.borderColor = '#b8d4ee';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow =
+                  '0 8px 22px rgba(15, 23, 42, 0.06)';
+                e.currentTarget.style.borderColor = '#e5e7eb';
+              }}
+              style={{
+                backgroundColor: 'white',
+                border: '1px solid #e5e7eb',
+                borderRadius: '16px',
+                padding: '20px',
+                boxShadow: '0 8px 22px rgba(15, 23, 42, 0.06)',
+                transition: '0.25s ease'
+              }}
+            >
+              <h4
+                style={{
+                  margin: '0 0 12px',
+                  color: '#0f172a',
+                  fontSize: '16px',
+                  lineHeight: 1.45,
+                  fontWeight: '800'
+                }}
+              >
+                {program.name}
+              </h4>
+
+              <span
+                style={{
+                  display: 'inline-block',
+                  backgroundColor: '#eef4fb',
+                  color: '#003B71',
+                  padding: '7px 10px',
+                  borderRadius: '999px',
+                  fontSize: '11px',
+                  fontWeight: 'bold',
+                  textTransform: 'uppercase',
+                  lineHeight: 1.4
+                }}
+              >
+                {program.field_area}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
     );
-
-    const reviewsData = await reviewsResponse.json();
-    setReviews(reviewsData);
-  } catch (err) {
-    console.error(err);
-    setReviewMessage('Server nije dostupan.');
-  }
-};
+  };
 
   if (!faculty) {
     return (
@@ -150,112 +325,6 @@ const handleReviewSubmit = async (e) => {
     );
   }
 
-  const renderPrograms = (title, items) => {
-  if (items.length === 0) return null;
-
-  return (
-    <div
-      style={{
-        marginTop: '26px'
-      }}
-    >
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          marginBottom: '16px'
-        }}
-      >
-        <h3
-          style={{
-            color: '#003B71',
-            margin: 0,
-            fontSize: '21px',
-            fontWeight: '800'
-          }}
-        >
-          {title}
-        </h3>
-
-        <span
-          style={{
-            backgroundColor: '#e8f1fb',
-            color: '#003B71',
-            padding: '6px 12px',
-            borderRadius: '999px',
-            fontSize: '12px',
-            fontWeight: 'bold'
-          }}
-        >
-          {items.length} programa
-        </span>
-      </div>
-
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
-          gap: '16px'
-        }}
-      >
-        {items.map((program) => (
-          <div
-            key={program.id}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'translateY(-5px)';
-              e.currentTarget.style.boxShadow =
-                '0 16px 35px rgba(15, 23, 42, 0.12)';
-              e.currentTarget.style.borderColor = '#b8d4ee';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'translateY(0)';
-              e.currentTarget.style.boxShadow =
-                '0 8px 22px rgba(15, 23, 42, 0.06)';
-              e.currentTarget.style.borderColor = '#e5e7eb';
-            }}
-            style={{
-              backgroundColor: 'white',
-              border: '1px solid #e5e7eb',
-              borderRadius: '16px',
-              padding: '20px',
-              boxShadow: '0 8px 22px rgba(15, 23, 42, 0.06)',
-              transition: '0.25s ease'
-            }}
-          >
-            <h4
-              style={{
-                margin: '0 0 12px',
-                color: '#0f172a',
-                fontSize: '16px',
-                lineHeight: 1.45,
-                fontWeight: '800'
-              }}
-            >
-              {program.name}
-            </h4>
-
-            <span
-              style={{
-                display: 'inline-block',
-                backgroundColor: '#eef4fb',
-                color: '#003B71',
-                padding: '7px 10px',
-                borderRadius: '999px',
-                fontSize: '11px',
-                fontWeight: 'bold',
-                textTransform: 'uppercase',
-                lineHeight: 1.4
-              }}
-            >
-              {program.field_area}
-            </span>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-};
   return (
     <div
       style={{
@@ -303,11 +372,7 @@ const handleReviewSubmit = async (e) => {
             }}
           />
 
-          <div
-            style={{
-              padding: '38px'
-            }}
-          >
+          <div style={{ padding: '38px' }}>
             <div
               style={{
                 display: 'flex',
@@ -365,6 +430,40 @@ const handleReviewSubmit = async (e) => {
             >
               {faculty.university_name}
             </p>
+
+            <div style={{ marginBottom: '30px' }}>
+              <button
+                onClick={handleSaveFaculty}
+                style={{
+                  backgroundColor: isSaved ? 'white' : '#003B71',
+                  color: isSaved ? '#003B71' : 'white',
+                  border: '1px solid #003B71',
+                  padding: '12px 20px',
+                  borderRadius: '12px',
+                  fontWeight: 'bold',
+                  cursor: 'pointer',
+                  boxShadow: isSaved
+                    ? 'none'
+                    : '0 8px 20px rgba(0, 59, 113, 0.20)',
+                  transition: '0.25s ease'
+                }}
+              >
+                {isSaved ? 'Ukloni iz sačuvanih' : 'Sačuvaj fakultet'}
+              </button>
+
+              {saveMessage && (
+                <p
+                  style={{
+                    margin: '12px 0 0',
+                    color: '#003B71',
+                    fontWeight: 'bold',
+                    fontSize: '14px'
+                  }}
+                >
+                  {saveMessage}
+                </p>
+              )}
+            </div>
 
             <div
               style={{
@@ -492,21 +591,11 @@ const handleReviewSubmit = async (e) => {
               </p>
 
               {loadingPrograms ? (
-                <p
-                  style={{
-                    color: '#64748b',
-                    margin: 0
-                  }}
-                >
+                <p style={{ color: '#64748b', margin: 0 }}>
                   Učitavanje programa...
                 </p>
               ) : programs.length === 0 ? (
-                <p
-                  style={{
-                    color: '#64748b',
-                    margin: 0
-                  }}
-                >
+                <p style={{ color: '#64748b', margin: 0 }}>
                   Za ovaj fakultet trenutno nema unesenih studijskih programa.
                 </p>
               ) : (
@@ -517,231 +606,228 @@ const handleReviewSubmit = async (e) => {
                 </>
               )}
             </div>
+
             <div
-  style={{
-    backgroundColor: '#f8fbff',
-    padding: '26px',
-    borderRadius: '16px',
-    border: '1px solid #e5e7eb',
-    marginBottom: '28px'
-  }}
->
-  <h2
-    style={{
-      color: '#003B71',
-      margin: '0 0 8px',
-      fontSize: '24px'
-    }}
-  >
-    Recenzije studenata
-  </h2>
-
-  <p
-    style={{
-      margin: '0 0 22px',
-      color: '#64748b',
-      fontSize: '14px'
-    }}
-  >
-    Pogledaj iskustva drugih korisnika ili ostavi svoju recenziju.
-  </p>
-
-  {user ? (
-    <form
-      onSubmit={handleReviewSubmit}
-      style={{
-        backgroundColor: 'white',
-        padding: '22px',
-        borderRadius: '16px',
-        border: '1px solid #e5e7eb',
-        boxShadow: '0 8px 22px rgba(15, 23, 42, 0.06)',
-        marginBottom: '26px'
-      }}
-    >
-      <label
-        style={{
-          display: 'block',
-          color: '#003B71',
-          fontWeight: 'bold',
-          marginBottom: '8px'
-        }}
-      >
-        Ocjena
-      </label>
-
-      <select
-        name="rating"
-        value={reviewData.rating}
-        onChange={handleReviewChange}
-        style={{
-          width: '100%',
-          padding: '13px 15px',
-          borderRadius: '12px',
-          border: '1px solid #cbd5e1',
-          backgroundColor: 'white',
-          color: '#0f172a',
-          fontSize: '15px',
-          marginBottom: '14px',
-          outline: 'none'
-        }}
-      >
-        <option value="5">5 - Odlično</option>
-        <option value="4">4 - Vrlo dobro</option>
-        <option value="3">3 - Dobro</option>
-        <option value="2">2 - Dovoljno</option>
-        <option value="1">1 - Loše</option>
-      </select>
-
-      <label
-        style={{
-          display: 'block',
-          color: '#003B71',
-          fontWeight: 'bold',
-          marginBottom: '8px'
-        }}
-      >
-        Komentar
-      </label>
-
-      <textarea
-        name="comment"
-        placeholder="Napiši svoje iskustvo ili mišljenje..."
-        value={reviewData.comment}
-        onChange={handleReviewChange}
-        style={{
-          width: '100%',
-          minHeight: '100px',
-          padding: '13px 15px',
-          borderRadius: '12px',
-          border: '1px solid #cbd5e1',
-          backgroundColor: 'white',
-          color: '#0f172a',
-          fontSize: '15px',
-          resize: 'vertical',
-          boxSizing: 'border-box',
-          outline: 'none',
-          marginBottom: '16px'
-        }}
-      />
-
-      <button
-        type="submit"
-        style={{
-          backgroundColor: '#003B71',
-          color: 'white',
-          border: 'none',
-          padding: '12px 20px',
-          borderRadius: '12px',
-          fontWeight: 'bold',
-          cursor: 'pointer',
-          boxShadow: '0 8px 20px rgba(0, 59, 113, 0.20)'
-        }}
-      >
-        Dodaj recenziju
-      </button>
-
-      {reviewMessage && (
-        <p
-          style={{
-            margin: '14px 0 0',
-            color: '#003B71',
-            fontWeight: 'bold',
-            fontSize: '14px'
-          }}
-        >
-          {reviewMessage}
-        </p>
-      )}
-    </form>
-  ) : (
-    <div
-      style={{
-        backgroundColor: 'white',
-        padding: '20px',
-        borderRadius: '14px',
-        border: '1px solid #e5e7eb',
-        marginBottom: '24px'
-      }}
-    >
-      <p
-        style={{
-          margin: 0,
-          color: '#64748b'
-        }}
-      >
-        Za dodavanje recenzije potrebno je da se prijavite.
-      </p>
-    </div>
-  )}
-
-  {loadingReviews ? (
-    <p style={{ color: '#64748b', margin: 0 }}>
-      Učitavanje recenzija...
-    </p>
-  ) : reviews.length === 0 ? (
-    <p style={{ color: '#64748b', margin: 0 }}>
-      Još nema recenzija za ovaj fakultet.
-    </p>
-  ) : (
-    <div
-      style={{
-        display: 'grid',
-        gap: '16px'
-      }}
-    >
-      {reviews.map((review) => (
-        <div
-          key={review.id}
-          style={{
-            backgroundColor: 'white',
-            padding: '20px',
-            borderRadius: '16px',
-            border: '1px solid #e5e7eb',
-            boxShadow: '0 8px 22px rgba(15, 23, 42, 0.06)'
-          }}
-        >
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              gap: '12px',
-              marginBottom: '10px',
-              flexWrap: 'wrap'
-            }}
-          >
-            <strong
               style={{
-                color: '#003B71'
+                backgroundColor: '#f8fbff',
+                padding: '26px',
+                borderRadius: '16px',
+                border: '1px solid #e5e7eb',
+                marginBottom: '28px'
               }}
             >
-              {review.full_name}
-            </strong>
+              <h2
+                style={{
+                  color: '#003B71',
+                  margin: '0 0 8px',
+                  fontSize: '24px'
+                }}
+              >
+                Recenzije studenata
+              </h2>
 
-            <span
-              style={{
-                color: '#f59e0b',
-                fontWeight: 'bold'
-              }}
-            >
-              {'★'.repeat(review.rating)}
-              {'☆'.repeat(5 - review.rating)}
-            </span>
-          </div>
+              <p
+                style={{
+                  margin: '0 0 22px',
+                  color: '#64748b',
+                  fontSize: '14px'
+                }}
+              >
+                Pogledaj iskustva drugih korisnika ili ostavi svoju recenziju.
+              </p>
 
-          <p
-            style={{
-              margin: 0,
-              color: '#475569',
-              lineHeight: 1.7
-            }}
-          >
-            {review.comment || 'Korisnik nije ostavio komentar.'}
-          </p>
-        </div>
-      ))}
-    </div>
-  )}
-</div>
+              {user ? (
+                <form
+                  onSubmit={handleReviewSubmit}
+                  style={{
+                    backgroundColor: 'white',
+                    padding: '22px',
+                    borderRadius: '16px',
+                    border: '1px solid #e5e7eb',
+                    boxShadow: '0 8px 22px rgba(15, 23, 42, 0.06)',
+                    marginBottom: '26px'
+                  }}
+                >
+                  <label
+                    style={{
+                      display: 'block',
+                      color: '#003B71',
+                      fontWeight: 'bold',
+                      marginBottom: '8px'
+                    }}
+                  >
+                    Ocjena
+                  </label>
+
+                  <select
+                    name="rating"
+                    value={reviewData.rating}
+                    onChange={handleReviewChange}
+                    style={{
+                      width: '100%',
+                      padding: '13px 15px',
+                      borderRadius: '12px',
+                      border: '1px solid #cbd5e1',
+                      backgroundColor: 'white',
+                      color: '#0f172a',
+                      fontSize: '15px',
+                      marginBottom: '14px',
+                      outline: 'none'
+                    }}
+                  >
+                    <option value="5">5 - Odlično</option>
+                    <option value="4">4 - Vrlo dobro</option>
+                    <option value="3">3 - Dobro</option>
+                    <option value="2">2 - Dovoljno</option>
+                    <option value="1">1 - Loše</option>
+                  </select>
+
+                  <label
+                    style={{
+                      display: 'block',
+                      color: '#003B71',
+                      fontWeight: 'bold',
+                      marginBottom: '8px'
+                    }}
+                  >
+                    Komentar
+                  </label>
+
+                  <textarea
+                    name="comment"
+                    placeholder="Napiši svoje iskustvo ili mišljenje..."
+                    value={reviewData.comment}
+                    onChange={handleReviewChange}
+                    style={{
+                      width: '100%',
+                      minHeight: '100px',
+                      padding: '13px 15px',
+                      borderRadius: '12px',
+                      border: '1px solid #cbd5e1',
+                      backgroundColor: 'white',
+                      color: '#0f172a',
+                      fontSize: '15px',
+                      resize: 'vertical',
+                      boxSizing: 'border-box',
+                      outline: 'none',
+                      marginBottom: '16px'
+                    }}
+                  />
+
+                  <button
+                    type="submit"
+                    style={{
+                      backgroundColor: '#003B71',
+                      color: 'white',
+                      border: 'none',
+                      padding: '12px 20px',
+                      borderRadius: '12px',
+                      fontWeight: 'bold',
+                      cursor: 'pointer',
+                      boxShadow: '0 8px 20px rgba(0, 59, 113, 0.20)'
+                    }}
+                  >
+                    Dodaj recenziju
+                  </button>
+
+                  {reviewMessage && (
+                    <p
+                      style={{
+                        margin: '14px 0 0',
+                        color: '#003B71',
+                        fontWeight: 'bold',
+                        fontSize: '14px'
+                      }}
+                    >
+                      {reviewMessage}
+                    </p>
+                  )}
+                </form>
+              ) : (
+                <div
+                  style={{
+                    backgroundColor: 'white',
+                    padding: '20px',
+                    borderRadius: '14px',
+                    border: '1px solid #e5e7eb',
+                    marginBottom: '24px'
+                  }}
+                >
+                  <p
+                    style={{
+                      margin: 0,
+                      color: '#64748b'
+                    }}
+                  >
+                    Za dodavanje recenzije potrebno je da se prijavite.
+                  </p>
+                </div>
+              )}
+
+              {loadingReviews ? (
+                <p style={{ color: '#64748b', margin: 0 }}>
+                  Učitavanje recenzija...
+                </p>
+              ) : reviews.length === 0 ? (
+                <p style={{ color: '#64748b', margin: 0 }}>
+                  Još nema recenzija za ovaj fakultet.
+                </p>
+              ) : (
+                <div
+                  style={{
+                    display: 'grid',
+                    gap: '16px'
+                  }}
+                >
+                  {reviews.map((review) => (
+                    <div
+                      key={review.id}
+                      style={{
+                        backgroundColor: 'white',
+                        padding: '20px',
+                        borderRadius: '16px',
+                        border: '1px solid #e5e7eb',
+                        boxShadow: '0 8px 22px rgba(15, 23, 42, 0.06)'
+                      }}
+                    >
+                      <div
+                        style={{
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                          gap: '12px',
+                          marginBottom: '10px',
+                          flexWrap: 'wrap'
+                        }}
+                      >
+                        <strong style={{ color: '#003B71' }}>
+                          {review.full_name}
+                        </strong>
+
+                        <span
+                          style={{
+                            color: '#f59e0b',
+                            fontWeight: 'bold'
+                          }}
+                        >
+                          {'★'.repeat(review.rating)}
+                          {'☆'.repeat(5 - review.rating)}
+                        </span>
+                      </div>
+
+                      <p
+                        style={{
+                          margin: 0,
+                          color: '#475569',
+                          lineHeight: 1.7
+                        }}
+                      >
+                        {review.comment || 'Korisnik nije ostavio komentar.'}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
 
             {faculty.website_url && (
               <a

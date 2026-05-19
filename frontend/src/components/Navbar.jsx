@@ -105,36 +105,26 @@ function Navbar({ user, onLogout }) {
 >
   Pronađi fakultet
 </NavLink>
-
+<NavLink
+  to="/saved"
+  className={({ isActive }) =>
+    isActive ? 'nav-link active' : 'nav-link'
+  }
+>
+  ★
+</NavLink>
 {user ? (
           <>
-            <div
-              style={{
-                backgroundColor: '#eef4fb',
-                padding: '10px 14px',
-                borderRadius: '10px',
-                color: '#003B71',
-                fontWeight: 'bold',
-                fontSize: '14px'
-              }}
-            >
-              {user.full_name}
-            </div>
+            <div className="nav-user-badge">
+  {user.full_name}
+</div>
 
             <button
-              onClick={onLogout}
-              style={{
-                backgroundColor: '#003B71',
-                color: 'white',
-                border: 'none',
-                padding: '10px 16px',
-                borderRadius: '10px',
-                fontWeight: 'bold',
-                cursor: 'pointer'
-              }}
-            >
-              Logout
-            </button>
+  onClick={onLogout}
+  className="nav-auth-button-filled"
+>
+  Logout
+</button>
           </>
         ) : (
           <>
