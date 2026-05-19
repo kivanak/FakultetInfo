@@ -3,16 +3,7 @@ import './Navbar.css';
 
 
 function Navbar({ user, onLogout }) {
-  const linkStyle = ({ isActive }) => ({
-    textDecoration: 'none',
-    backgroundColor: isActive ? '#003B71' : 'transparent',
-    color: isActive ? 'white' : '#444',
-    padding: '10px 16px',
-    borderRadius: '10px',
-    fontWeight: 'bold',
-    fontSize: '15px'
-  });
-
+ 
   return (
     <nav
       style={{
@@ -106,7 +97,16 @@ function Navbar({ user, onLogout }) {
   Fakulteti
 </NavLink>
 
-        {user ? (
+<NavLink
+  to="/recommendation"
+  className={({ isActive }) =>
+    isActive ? 'nav-link active' : 'nav-link'
+  }
+>
+  Pronađi fakultet
+</NavLink>
+
+{user ? (
           <>
             <div
               style={{

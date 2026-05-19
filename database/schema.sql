@@ -18,6 +18,7 @@ CREATE TABLE faculties (
     city VARCHAR(100) NOT NULL,
     address VARCHAR(200),
     type VARCHAR(20) NOT NULL,
+    short_description TEXT,
     description TEXT,
     website_url TEXT,
     cover_image TEXT,
@@ -111,9 +112,32 @@ CREATE TABLE saved_faculties (
     CONSTRAINT unique_user_faculty UNIQUE (user_id, faculty_id)
 );
 
+CREATE TABLE reviews (
+    id SERIAL PRIMARY KEY,
+    user_id INT NOT NULL,
+    faculty_id INT NOT NULL,
+    rating INT NOT NULL,
+    comment TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT fk_reviews_user
+        FOREIGN KEY (user_id)
+        REFERENCES users(id)
+        ON DELETE CASCADE,
+
+    CONSTRAINT fk_reviews_faculty
+        FOREIGN KEY (faculty_id)
+        REFERENCES faculties(id)
+        ON DELETE CASCADE,
+
+    CHECK (rating >= 1 AND rating <= 5)
+);
+
 --za ubrzavanje pretrage
 CREATE INDEX idx_faculty_name ON faculties(name);
 CREATE INDEX idx_faculty_city ON faculties(city);
 CREATE INDEX idx_program_field_area ON study_programs(field_area);
 CREATE INDEX idx_program_faculty_id ON study_programs(faculty_id);
 CREATE INDEX idx_deadlines_program_id ON application_deadlines(study_program_id);
+CREATE INDEX idx_reviews_faculty_id ON reviews(faculty_id);
+CREATE INDEX idx_reviews_user_id ON reviews(user_id);

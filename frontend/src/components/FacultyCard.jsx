@@ -116,15 +116,15 @@ function FacultyCard({ faculty, onDelete, onUpdate, isAdmin }) {
             {faculty.name}
           </h2>
 
-          <p
-            style={{
-              color: '#555',
-              lineHeight: 1.6,
-              margin: 0
-            }}
-          >
-            {faculty.description}
-          </p>
+         <p
+  style={{
+    color: '#555',
+    lineHeight: 1.6,
+    margin: 0
+  }}
+>
+  {faculty.short_description || faculty.description}
+</p>
         </div>
 
         <div

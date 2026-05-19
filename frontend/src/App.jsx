@@ -7,6 +7,8 @@ import FacultyDetails from './components/FacultyDetails';
 import HomePage from './pages/HomePage';
 import FacultiesPage from './pages/FacultiesPage';
 
+import RecommendationPage from './pages/RecommendationPage';
+
 function App() {
   const [faculties, setFaculties] = useState([]);
   const [search, setSearch] = useState('');
@@ -105,11 +107,24 @@ function App() {
             />
           }
         />
-
+          <Route
+  path="/recommendation"
+  element={
+    <RecommendationPage
+      user={user}
+      faculties={faculties}
+    />
+  }
+/>
         <Route
-          path="/faculties/:id"
-          element={<FacultyDetails faculties={faculties} />}
-        />
+  path="/faculties/:id"
+  element={
+    <FacultyDetails
+      faculties={faculties}
+      user={user}
+    />
+  }
+/>
       </Routes>
     </div>
   );

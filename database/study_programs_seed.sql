@@ -182,4 +182,10 @@ VALUES
 (19, 'RAČUNARSKE NAUKE', 'OSNOVNE STUDIJE', 'osnovne', NULL, NULL, NULL, 'Studijski program Univerziteta Crne Gore.'),
 (19, 'FIZIKA', 'OSNOVNE STUDIJE', 'osnovne', NULL, NULL, NULL, 'Studijski program Univerziteta Crne Gore.'),
 (19, 'BIOLOGIJA', 'OSNOVNE STUDIJE', 'osnovne', NULL, NULL, NULL, 'Studijski program Univerziteta Crne Gore.'),
-(19, 'RAČUNARSTVO I INFORMACIONE TEHNOLOGIJE', 'OSNOVNE STUDIJE', 'osnovne', NULL, NULL, NULL, 'Studijski program Univerziteta Crne Gore.');
+(19, 'RAČUNARSTVO I INFORMACIONE TEHNOLOGIJE', 'OSNOVNE STUDIJE', 'osnovne', NULL, NULL, NULL, 'Studijski program Univerziteta Crne Gore.'),
+(19, 'MATEMATIKA', 'MASTER STUDIJE', 'master', NULL, NULL, NULL, 'Studijski program Univerziteta Crne Gore.'),
+(19, 'MATEMATIKA I RAČUNARSKE NAUKE', 'MASTER STUDIJE', 'master', NULL, NULL, NULL, 'Studijski program Univerziteta Crne Gore.'),
+(19, 'RAČUNARSKE NAUKE', 'MASTER STUDIJE', 'master', NULL, NULL, NULL, 'Studijski program Univerziteta Crne Gore.'),
+(19, 'FIZIKA', 'MASTER STUDIJE', 'master', NULL, NULL, NULL, 'Studijski program Univerziteta Crne Gore.'),
+(19, 'BIOLOGIJA', 'MASTER STUDIJE', 'master', NULL, NULL, NULL, 'Studijski program Univerziteta Crne Gore.'),
+(19, 'RAČUNARSTVO I INFORMACIONE TEHNOLOGIJE', 'MASTER STUDIJE', 'master', NULL, NULL, NULL, 'Studijski program Univerziteta Crne Gore.');

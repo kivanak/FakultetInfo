@@ -62,6 +62,69 @@ app.get('/faculties/:id', async (req, res) => {
   }
 });
 
+// recenzije za jedan fakultet
+app.get('/faculties/:id/reviews', async (req, res) => {
+  try {
+    const facultyId = req.params.id;
+
+    const result = await pool.query(
+      `SELECT 
+          reviews.id,
+          reviews.rating,
+          reviews.comment,
+          reviews.created_at,
+          users.full_name
+       FROM reviews
+       JOIN users ON reviews.user_id = users.id
+       WHERE reviews.faculty_id = $1
+       ORDER BY reviews.created_at DESC`,
+      [facultyId]
+    );
+
+    res.json(result.rows);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Greška pri učitavanju recenzija.');
+  }
+});
+
+// dodavanje recenzije
+app.post('/faculties/:id/reviews', async (req, res) => {
+  try {
+    const facultyId = req.params.id;
+
+    const {
+      user_id,
+      rating,
+      comment
+    } = req.body;
+
+    if (!user_id || !rating) {
+      return res.status(400).json({
+        message: 'Korisnik i ocjena su obavezni.'
+      });
+    }
+
+    const result = await pool.query(
+      `INSERT INTO reviews
+       (user_id, faculty_id, rating, comment)
+       VALUES ($1, $2, $3, $4)
+       RETURNING *`,
+      [
+        user_id,
+        facultyId,
+        rating,
+        comment
+      ]
+    );
+
+    res.status(201).json(result.rows[0]);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Greška pri dodavanju recenzije.');
+  }
+});
+
 // studijski programi za jedan fakultet
 app.get('/faculties/:id/programs', async (req, res) => {
   try {
