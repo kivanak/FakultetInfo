@@ -3,37 +3,77 @@ function FilterPanel({ search, setSearch, cityFilter, setCityFilter }) {
     <div
       style={{
         backgroundColor: 'white',
-        padding: '26px',
-        borderRadius: '18px',
-        boxShadow: '0 10px 28px rgba(15, 23, 42, 0.08)',
-        marginBottom: '28px',
+        padding: '28px',
+        borderRadius: '22px',
+        boxShadow: '0 12px 32px rgba(15, 23, 42, 0.08)',
+        marginBottom: '30px',
         border: '1px solid #e5e7eb'
       }}
     >
       <div
         style={{
-          marginBottom: '18px'
+          display: 'flex',
+          justifyContent: 'space-between',
+          gap: '20px',
+          alignItems: 'center',
+          flexWrap: 'wrap',
+          marginBottom: '22px'
         }}
       >
-        <h2
-          style={{
-            color: '#003B71',
-            margin: 0,
-            fontSize: '26px'
-          }}
-        >
-          Pretraga fakulteta
-        </h2>
+        <div>
+          <p
+            style={{
+              margin: '0 0 8px',
+              color: '#003B71',
+              fontWeight: 'bold',
+              fontSize: '13px',
+              textTransform: 'uppercase',
+              letterSpacing: '0.7px'
+            }}
+          >
+            Pretraga
+          </p>
 
-        <p
+          <h2
+            style={{
+              color: '#0f172a',
+              margin: 0,
+              fontSize: '28px',
+              fontWeight: '800'
+            }}
+          >
+            Pronađi fakultet
+          </h2>
+
+          <p
+            style={{
+              margin: '8px 0 0',
+              color: '#64748b',
+              fontSize: '15px',
+              lineHeight: 1.6
+            }}
+          >
+            Pretraži fakultete po nazivu i filtriraj ih prema gradu.
+          </p>
+        </div>
+
+        <button
+          onClick={() => {
+            setSearch('');
+            setCityFilter('');
+          }}
           style={{
-            margin: '6px 0 0',
-            color: '#64748b',
-            fontSize: '14px'
+            backgroundColor: '#eef4fb',
+            color: '#003B71',
+            border: '1px solid #d8e4f2',
+            padding: '11px 16px',
+            borderRadius: '12px',
+            fontWeight: 'bold',
+            cursor: 'pointer'
           }}
         >
-          Pretraži fakultete po nazivu ili gradu.
-        </p>
+          Resetuj filtere
+        </button>
       </div>
 
       <div
@@ -43,35 +83,50 @@ function FilterPanel({ search, setSearch, cityFilter, setCityFilter }) {
           gap: '14px'
         }}
       >
-        <input
-          type="text"
-          placeholder="Pretraži po nazivu..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          style={{
-            width: '100%',
-            padding: '14px 16px',
-            borderRadius: '12px',
-            border: '1px solid #cbd5e1',
-            fontSize: '15px',
-            boxSizing: 'border-box',
-            backgroundColor: 'white',
-            color: '#0f172a',
-            outline: 'none'
-          }}
-        />
+        <div style={{ position: 'relative' }}>
+          <span
+            style={{
+              position: 'absolute',
+              left: '16px',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              color: '#94a3b8',
+              fontSize: '16px'
+            }}
+          >
+            🔎
+          </span>
+
+          <input
+            type="text"
+            placeholder="Pretraži po nazivu fakulteta..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            style={{
+              width: '100%',
+              padding: '15px 16px 15px 44px',
+              borderRadius: '14px',
+              border: '1px solid #cbd5e1',
+              fontSize: '15px',
+              boxSizing: 'border-box',
+              backgroundColor: '#f8fbff',
+              color: '#0f172a',
+              outline: 'none'
+            }}
+          />
+        </div>
 
         <select
           value={cityFilter}
           onChange={(e) => setCityFilter(e.target.value)}
           style={{
             width: '100%',
-            padding: '14px 16px',
-            borderRadius: '12px',
+            padding: '15px 16px',
+            borderRadius: '14px',
             border: '1px solid #cbd5e1',
             fontSize: '15px',
             boxSizing: 'border-box',
-            backgroundColor: 'white',
+            backgroundColor: '#f8fbff',
             color: '#0f172a',
             outline: 'none',
             cursor: 'pointer'
@@ -82,6 +137,9 @@ function FilterPanel({ search, setSearch, cityFilter, setCityFilter }) {
           <option value="Nikšić">Nikšić</option>
           <option value="Cetinje">Cetinje</option>
           <option value="Kotor">Kotor</option>
+          <option value="Bar">Bar</option>
+          <option value="Bijelo Polje">Bijelo Polje</option>
+          <option value="Herceg Novi">Herceg Novi</option>
         </select>
       </div>
     </div>

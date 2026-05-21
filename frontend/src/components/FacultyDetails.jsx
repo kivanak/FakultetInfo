@@ -220,24 +220,22 @@ function FacultyDetails({ faculties, user }) {
     if (items.length === 0) return null;
 
     return (
-      <div
-        style={{
-          marginTop: '26px'
-        }}
-      >
+      <div style={{ marginTop: '28px' }}>
         <div
           style={{
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
-            marginBottom: '16px'
+            marginBottom: '16px',
+            gap: '14px',
+            flexWrap: 'wrap'
           }}
         >
           <h3
             style={{
               color: '#003B71',
               margin: 0,
-              fontSize: '21px',
+              fontSize: '22px',
               fontWeight: '800'
             }}
           >
@@ -248,7 +246,7 @@ function FacultyDetails({ faculties, user }) {
             style={{
               backgroundColor: '#e8f1fb',
               color: '#003B71',
-              padding: '6px 12px',
+              padding: '7px 13px',
               borderRadius: '999px',
               fontSize: '12px',
               fontWeight: 'bold'
@@ -366,146 +364,254 @@ function FacultyDetails({ faculties, user }) {
     <div
       style={{
         minHeight: '100vh',
-        backgroundColor: '#f8fbff',
-        padding: '45px 30px 70px'
+        background:
+          'linear-gradient(180deg, #f8fbff 0%, #eef6ff 45%, #ffffff 100%)',
+        padding: '45px 30px 75px'
       }}
     >
       <div
         style={{
-          maxWidth: '1050px',
+          maxWidth: '1180px',
           margin: '0 auto'
         }}
       >
         <Link
           to="/faculties"
           style={{
-            display: 'inline-block',
+            display: 'inline-flex',
+            alignItems: 'center',
             marginBottom: '25px',
             textDecoration: 'none',
             color: '#003B71',
-            fontWeight: 'bold'
+            fontWeight: 'bold',
+            backgroundColor: 'white',
+            padding: '10px 15px',
+            borderRadius: '999px',
+            border: '1px solid #dbeafe',
+            boxShadow: '0 8px 22px rgba(15, 23, 42, 0.06)'
           }}
         >
           ← Nazad na fakultete
         </Link>
 
-        <div
+        <section
           style={{
             backgroundColor: 'white',
-            borderRadius: '22px',
+            borderRadius: '28px',
             overflow: 'hidden',
-            boxShadow: '0 14px 35px rgba(15, 23, 42, 0.10)',
-            border: '1px solid #e5e7eb'
+            boxShadow: '0 18px 45px rgba(15, 23, 42, 0.12)',
+            border: '1px solid #dbeafe',
+            marginBottom: '30px'
           }}
         >
-          <img
-            src={faculty.cover_image || '/images/faculties/default.jpg'}
-            alt={faculty.name}
+          <div
             style={{
-              width: '100%',
-              height: '340px',
-              objectFit: 'cover',
-              display: 'block'
+              position: 'relative',
+              height: '360px',
+              overflow: 'hidden',
+              backgroundColor: '#e8f1fb'
             }}
-          />
+          >
+            <img
+              src={faculty.cover_image || '/images/faculties/default.jpg'}
+              alt={faculty.name}
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                display: 'block'
+              }}
+            />
 
-          <div style={{ padding: '38px' }}>
+            <div
+              style={{
+                position: 'absolute',
+                inset: 0,
+                background:
+                  'linear-gradient(180deg, rgba(0,0,0,0.05), rgba(0, 59, 113, 0.58))'
+              }}
+            />
+
+            <div
+              style={{
+                position: 'absolute',
+                left: '38px',
+                right: '38px',
+                bottom: '34px',
+                color: 'white'
+              }}
+            >
+              <div
+                style={{
+                  display: 'flex',
+                  gap: '10px',
+                  flexWrap: 'wrap',
+                  marginBottom: '16px'
+                }}
+              >
+                <span
+                  style={{
+                    backgroundColor: 'rgba(255, 255, 255, 0.92)',
+                    color: '#003B71',
+                    padding: '7px 12px',
+                    borderRadius: '999px',
+                    fontSize: '13px',
+                    fontWeight: 'bold'
+                  }}
+                >
+                  📍 {faculty.city}
+                </span>
+
+                <span
+                  style={{
+                    backgroundColor: 'rgba(255, 255, 255, 0.18)',
+                    color: 'white',
+                    padding: '7px 12px',
+                    borderRadius: '999px',
+                    fontSize: '13px',
+                    fontWeight: 'bold',
+                    border: '1px solid rgba(255,255,255,0.35)'
+                  }}
+                >
+                  {faculty.type === 'drzavni'
+                    ? 'Državni fakultet'
+                    : 'Privatni fakultet'}
+                </span>
+              </div>
+
+              <h1
+                style={{
+                  margin: 0,
+                  fontSize: '42px',
+                  lineHeight: 1.15,
+                  fontWeight: '800',
+                  maxWidth: '850px'
+                }}
+              >
+                {faculty.name}
+              </h1>
+
+              <p
+                style={{
+                  margin: '10px 0 0',
+                  color: '#eaf4ff',
+                  fontSize: '17px',
+                  fontWeight: '600'
+                }}
+              >
+                {faculty.university_name}
+              </p>
+            </div>
+          </div>
+
+          <div style={{ padding: '34px 38px 38px' }}>
             <div
               style={{
                 display: 'flex',
-                gap: '10px',
+                justifyContent: 'space-between',
+                gap: '18px',
+                alignItems: 'center',
                 flexWrap: 'wrap',
-                marginBottom: '18px'
+                marginBottom: '30px'
               }}
             >
-              <span
+              <div
                 style={{
-                  backgroundColor: '#eef4fb',
-                  color: '#003B71',
-                  padding: '7px 12px',
-                  borderRadius: '999px',
-                  fontSize: '13px',
-                  fontWeight: 'bold'
+                  display: 'flex',
+                  gap: '12px',
+                  flexWrap: 'wrap'
                 }}
               >
-                📍 {faculty.city}
-              </span>
-
-              <span
-                style={{
-                  backgroundColor: '#f1f5f9',
-                  color: '#64748b',
-                  padding: '7px 12px',
-                  borderRadius: '999px',
-                  fontSize: '13px',
-                  fontWeight: 'bold'
-                }}
-              >
-                {faculty.type === 'drzavni'
-                  ? 'Državni fakultet'
-                  : 'Privatni fakultet'}
-              </span>
-            </div>
-
-            <h1
-              style={{
-                margin: 0,
-                color: '#003B71',
-                fontSize: '38px',
-                lineHeight: 1.2
-              }}
-            >
-              {faculty.name}
-            </h1>
-
-            <p
-              style={{
-                margin: '10px 0 30px',
-                color: '#64748b',
-                fontSize: '17px'
-              }}
-            >
-              {faculty.university_name}
-            </p>
-
-            <div style={{ marginBottom: '30px' }}>
-              <button
-                onClick={handleSaveFaculty}
-                style={{
-                  backgroundColor: isSaved ? 'white' : '#003B71',
-                  color: isSaved ? '#003B71' : 'white',
-                  border: '1px solid #003B71',
-                  padding: '12px 20px',
-                  borderRadius: '12px',
-                  fontWeight: 'bold',
-                  cursor: 'pointer',
-                  boxShadow: isSaved
-                    ? 'none'
-                    : '0 8px 20px rgba(0, 59, 113, 0.20)',
-                  transition: '0.25s ease'
-                }}
-              >
-                {isSaved ? 'Ukloni iz sačuvanih' : 'Sačuvaj fakultet'}
-              </button>
-
-              {saveMessage && (
-                <p
+                <button
+                  onClick={handleSaveFaculty}
                   style={{
-                    margin: '12px 0 0',
-                    color: '#003B71',
+                    backgroundColor: isSaved ? 'white' : '#003B71',
+                    color: isSaved ? '#003B71' : 'white',
+                    border: '1px solid #003B71',
+                    padding: '13px 20px',
+                    borderRadius: '13px',
                     fontWeight: 'bold',
-                    fontSize: '14px'
+                    cursor: 'pointer',
+                    boxShadow: isSaved
+                      ? 'none'
+                      : '0 8px 20px rgba(0, 59, 113, 0.20)',
+                    transition: '0.25s ease'
                   }}
                 >
-                  {saveMessage}
+                  {isSaved ? '☆ Ukloni iz sačuvanih' : '☆ Sačuvaj fakultet'}
+                </button>
+
+                {faculty.website_url && (
+                  <a
+                    href={faculty.website_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      display: 'inline-block',
+                      backgroundColor: '#eef4fb',
+                      color: '#003B71',
+                      padding: '13px 20px',
+                      borderRadius: '13px',
+                      textDecoration: 'none',
+                      fontWeight: 'bold',
+                      border: '1px solid #dbeafe'
+                    }}
+                  >
+                    Posjeti zvanični sajt →
+                  </a>
+                )}
+              </div>
+
+              <div
+                style={{
+                  backgroundColor: '#f8fbff',
+                  border: '1px solid #dbeafe',
+                  borderRadius: '16px',
+                  padding: '14px 18px',
+                  minWidth: '160px',
+                  textAlign: 'center'
+                }}
+              >
+                <div
+                  style={{
+                    color: '#f59e0b',
+                    fontSize: '22px',
+                    fontWeight: '800'
+                  }}
+                >
+                  ★ {averageRating}
+                </div>
+
+                <p
+                  style={{
+                    margin: '4px 0 0',
+                    color: '#64748b',
+                    fontSize: '13px',
+                    fontWeight: 'bold'
+                  }}
+                >
+                  {reviews.length} recenzija
                 </p>
-              )}
+              </div>
             </div>
+
+            {saveMessage && (
+              <p
+                style={{
+                  margin: '-16px 0 24px',
+                  color: '#003B71',
+                  fontWeight: 'bold',
+                  fontSize: '14px'
+                }}
+              >
+                {saveMessage}
+              </p>
+            )}
 
             <div
               style={{
                 display: 'grid',
-                gridTemplateColumns: '1fr 1fr',
+                gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
                 gap: '18px',
                 marginBottom: '30px'
               }}
@@ -513,8 +619,8 @@ function FacultyDetails({ faculties, user }) {
               <div
                 style={{
                   backgroundColor: '#f8fbff',
-                  padding: '20px',
-                  borderRadius: '14px',
+                  padding: '22px',
+                  borderRadius: '16px',
                   border: '1px solid #e5e7eb'
                 }}
               >
@@ -541,8 +647,8 @@ function FacultyDetails({ faculties, user }) {
               <div
                 style={{
                   backgroundColor: '#f8fbff',
-                  padding: '20px',
-                  borderRadius: '14px',
+                  padding: '22px',
+                  borderRadius: '16px',
                   border: '1px solid #e5e7eb'
                 }}
               >
@@ -567,20 +673,34 @@ function FacultyDetails({ faculties, user }) {
               </div>
             </div>
 
-            <div
+            <section
               style={{
                 backgroundColor: '#f8fbff',
-                padding: '26px',
-                borderRadius: '16px',
+                padding: '28px',
+                borderRadius: '18px',
                 border: '1px solid #e5e7eb',
                 marginBottom: '28px'
               }}
             >
+              <p
+                style={{
+                  margin: '0 0 8px',
+                  color: '#003B71',
+                  fontWeight: 'bold',
+                  fontSize: '13px',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.7px'
+                }}
+              >
+                Informacije
+              </p>
+
               <h2
                 style={{
-                  color: '#003B71',
-                  margin: '0 0 12px',
-                  fontSize: '24px'
+                  color: '#0f172a',
+                  margin: '0 0 14px',
+                  fontSize: '26px',
+                  fontWeight: '800'
                 }}
               >
                 O fakultetu
@@ -588,7 +708,7 @@ function FacultyDetails({ faculties, user }) {
 
               <p
                 style={{
-                  lineHeight: 1.8,
+                  lineHeight: 1.85,
                   color: '#475569',
                   margin: 0,
                   fontSize: '16px'
@@ -596,22 +716,36 @@ function FacultyDetails({ faculties, user }) {
               >
                 {faculty.description}
               </p>
-            </div>
+            </section>
 
-            <div
+            <section
               style={{
                 backgroundColor: '#f8fbff',
-                padding: '26px',
-                borderRadius: '16px',
+                padding: '28px',
+                borderRadius: '18px',
                 border: '1px solid #e5e7eb',
                 marginBottom: '28px'
               }}
             >
+              <p
+                style={{
+                  margin: '0 0 8px',
+                  color: '#003B71',
+                  fontWeight: 'bold',
+                  fontSize: '13px',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.7px'
+                }}
+              >
+                Programi
+              </p>
+
               <h2
                 style={{
-                  color: '#003B71',
+                  color: '#0f172a',
                   margin: '0 0 8px',
-                  fontSize: '24px'
+                  fontSize: '26px',
+                  fontWeight: '800'
                 }}
               >
                 Studijski programi
@@ -642,15 +776,14 @@ function FacultyDetails({ faculties, user }) {
                   {renderPrograms('Doktorske studije', doktorskePrograms)}
                 </>
               )}
-            </div>
+            </section>
 
-            <div
+            <section
               style={{
                 backgroundColor: '#f8fbff',
                 padding: '28px',
                 borderRadius: '18px',
-                border: '1px solid #e5e7eb',
-                marginBottom: '28px'
+                border: '1px solid #e5e7eb'
               }}
             >
               <div
@@ -664,11 +797,25 @@ function FacultyDetails({ faculties, user }) {
                 }}
               >
                 <div>
+                  <p
+                    style={{
+                      margin: '0 0 8px',
+                      color: '#003B71',
+                      fontWeight: 'bold',
+                      fontSize: '13px',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.7px'
+                    }}
+                  >
+                    Iskustva
+                  </p>
+
                   <h2
                     style={{
-                      color: '#003B71',
+                      color: '#0f172a',
                       margin: '0 0 8px',
-                      fontSize: '25px'
+                      fontSize: '26px',
+                      fontWeight: '800'
                     }}
                   >
                     Recenzije studenata
@@ -683,40 +830,6 @@ function FacultyDetails({ faculties, user }) {
                     }}
                   >
                     Pogledaj iskustva korisnika i ocjene za ovaj fakultet.
-                  </p>
-                </div>
-
-                <div
-                  style={{
-                    backgroundColor: 'white',
-                    border: '1px solid #e5e7eb',
-                    borderRadius: '16px',
-                    padding: '18px 22px',
-                    minWidth: '170px',
-                    textAlign: 'center',
-                    boxShadow: '0 8px 22px rgba(15, 23, 42, 0.06)'
-                  }}
-                >
-                  <div
-                    style={{
-                      color: '#f59e0b',
-                      fontSize: '24px',
-                      fontWeight: 'bold',
-                      marginBottom: '4px'
-                    }}
-                  >
-                    ★ {averageRating}
-                  </div>
-
-                  <p
-                    style={{
-                      margin: 0,
-                      color: '#64748b',
-                      fontSize: '13px',
-                      fontWeight: 'bold'
-                    }}
-                  >
-                    {reviews.length} recenzija
                   </p>
                 </div>
               </div>
@@ -743,80 +856,64 @@ function FacultyDetails({ faculties, user }) {
                     Ostavi recenziju
                   </h3>
 
-                    <label
-  style={{
-    display: 'block',
-    color: '#003B71',
-    fontWeight: 'bold',
-    marginBottom: '10px'
-  }}
->
-  Ocjena
-</label>
+                  <label
+                    style={{
+                      display: 'block',
+                      color: '#003B71',
+                      fontWeight: 'bold',
+                      marginBottom: '10px'
+                    }}
+                  >
+                    Ocjena
+                  </label>
 
-<div
-  style={{
-    display: 'flex',
-    gap: '8px',
-    marginBottom: '18px',
-    alignItems: 'center'
-  }}
->
-  {[1, 2, 3, 4, 5].map((star) => (
-    <button
-      key={star}
-      type="button"
-      onClick={() =>
-        setReviewData({
-          ...reviewData,
-          rating: String(star)
-        })
-      }
-      onMouseEnter={(e) => {
-        const parent = e.currentTarget.parentElement;
-        const buttons = parent.querySelectorAll('button');
+                  <div
+                    style={{
+                      display: 'flex',
+                      gap: '8px',
+                      marginBottom: '18px',
+                      alignItems: 'center'
+                    }}
+                  >
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <button
+                        key={star}
+                        type="button"
+                        onClick={() =>
+                          setReviewData({
+                            ...reviewData,
+                            rating: String(star)
+                          })
+                        }
+                        style={{
+                          backgroundColor: 'transparent',
+                          border: 'none',
+                          color:
+                            star <= Number(reviewData.rating)
+                              ? '#f59e0b'
+                              : '#cbd5e1',
+                          fontSize: '31px',
+                          cursor: 'pointer',
+                          padding: '0 2px',
+                          transition: '0.2s ease',
+                          lineHeight: 1
+                        }}
+                      >
+                        ★
+                      </button>
+                    ))}
 
-        buttons.forEach((button, index) => {
-          button.style.color = index < star ? '#f59e0b' : '#cbd5e1';
-          button.style.transform = index < star ? 'scale(1.12)' : 'scale(1)';
-        });
-      }}
-      onMouseLeave={(e) => {
-        const parent = e.currentTarget.parentElement;
-        const buttons = parent.querySelectorAll('button');
-        const currentRating = Number(reviewData.rating);
-
-        buttons.forEach((button, index) => {
-          button.style.color = index < currentRating ? '#f59e0b' : '#cbd5e1';
-          button.style.transform = 'scale(1)';
-        });
-      }}
-      style={{
-        backgroundColor: 'transparent',
-        border: 'none',
-        color: star <= Number(reviewData.rating) ? '#f59e0b' : '#cbd5e1',
-        fontSize: '30px',
-        cursor: 'pointer',
-        padding: '0 2px',
-        transition: '0.2s ease',
-        lineHeight: 1
-      }}
-    >
-      ★
-    </button>
-  ))}
-
-  <span
-    style={{
-      marginLeft: '10px',
-      color: '#64748b',
-      fontWeight: 'bold',
-      fontSize: '14px'
-    }}
-  >
-    {reviewData.rating}/5
-  </span>
-</div>
+                    <span
+                      style={{
+                        marginLeft: '10px',
+                        color: '#64748b',
+                        fontWeight: 'bold',
+                        fontSize: '14px'
+                      }}
+                    >
+                      {reviewData.rating}/5
+                    </span>
+                  </div>
 
                   <label
                     style={{
@@ -1037,29 +1134,9 @@ function FacultyDetails({ faculties, user }) {
                   ))}
                 </div>
               )}
-            </div>
-
-            {faculty.website_url && (
-              <a
-                href={faculty.website_url}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  display: 'inline-block',
-                  backgroundColor: '#003B71',
-                  color: 'white',
-                  padding: '13px 22px',
-                  borderRadius: '12px',
-                  textDecoration: 'none',
-                  fontWeight: 'bold',
-                  boxShadow: '0 8px 20px rgba(0, 59, 113, 0.20)'
-                }}
-              >
-                Posjeti zvanični sajt →
-              </a>
-            )}
+            </section>
           </div>
-        </div>
+        </section>
       </div>
     </div>
   );

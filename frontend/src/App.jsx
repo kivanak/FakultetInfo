@@ -6,7 +6,6 @@ import FacultyDetails from './components/FacultyDetails';
 
 import HomePage from './pages/HomePage';
 import FacultiesPage from './pages/FacultiesPage';
-
 import RecommendationPage from './pages/RecommendationPage';
 import SavedFacultiesPage from './pages/SavedFacultiesPage';
 
@@ -30,9 +29,12 @@ function App() {
   }, []);
 
   const filteredFaculties = faculties.filter((faculty) => {
+    const facultyName = faculty.name || '';
+    const facultyDescription = faculty.description || '';
+
     const matchesSearch =
-      faculty.name.toLowerCase().includes(search.toLowerCase()) ||
-      faculty.description.toLowerCase().includes(search.toLowerCase());
+      facultyName.toLowerCase().includes(search.toLowerCase()) ||
+      facultyDescription.toLowerCase().includes(search.toLowerCase());
 
     const matchesCity =
       cityFilter === '' || faculty.city === cityFilter;
@@ -94,44 +96,47 @@ function App() {
           path="/faculties"
           element={
             <FacultiesPage
-               user={user}
-               search={search}
-               setSearch={setSearch}
-               cityFilter={cityFilter}
-               setCityFilter={setCityFilter}
-               filteredFaculties={filteredFaculties}
-               onLogin={handleLogin}
-               onFacultyAdded={handleFacultyAdded}
-               onDeleteFaculty={handleDeleteFaculty}
-               onUpdateFaculty={handleUpdateFaculty}
-               onCityClick={handleCityClick}
+              user={user}
+              search={search}
+              setSearch={setSearch}
+              cityFilter={cityFilter}
+              setCityFilter={setCityFilter}
+              filteredFaculties={filteredFaculties}
+              onLogin={handleLogin}
+              onFacultyAdded={handleFacultyAdded}
+              onDeleteFaculty={handleDeleteFaculty}
+              onUpdateFaculty={handleUpdateFaculty}
+              onCityClick={handleCityClick}
             />
           }
         />
-          <Route
-  path="/recommendation"
-  element={
-    <RecommendationPage
-      user={user}
-      faculties={faculties}
-    />
-  }
-/>
-<Route
-  path="/saved"
-  element={
-    <SavedFacultiesPage user={user} />
-  }
-/>
+
         <Route
-  path="/faculties/:id"
-  element={
-    <FacultyDetails
-      faculties={faculties}
-      user={user}
-    />
-  }
-/>
+          path="/recommendation"
+          element={
+            <RecommendationPage
+              user={user}
+              faculties={faculties}
+            />
+          }
+        />
+
+        <Route
+          path="/saved"
+          element={
+            <SavedFacultiesPage user={user} />
+          }
+        />
+
+        <Route
+          path="/faculties/:id"
+          element={
+            <FacultyDetails
+              faculties={faculties}
+              user={user}
+            />
+          }
+        />
       </Routes>
     </div>
   );

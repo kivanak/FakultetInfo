@@ -1,9 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import './Navbar.css';
 
-
 function Navbar({ user, onLogout }) {
- 
   return (
     <nav
       style={{
@@ -26,28 +24,28 @@ function Navbar({ user, onLogout }) {
           gap: '12px'
         }}
       >
-       <div
-  style={{
-    width: '48px',
-    height: '48px',
-    borderRadius: '12px',
-    backgroundColor: '#e8f1fb',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    overflow: 'hidden'
-  }}
-       >
+        <div
+          style={{
+            width: '48px',
+            height: '48px',
+            borderRadius: '12px',
+            backgroundColor: '#e8f1fb',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            overflow: 'hidden'
+          }}
+        >
           <img
-           src="/images/logo/ucg.png"
-         alt="UCG logo"
-        style={{
-        width: '34px',
-         height: '34px',
-         objectFit: 'contain'
+            src="/images/logo/ucg.png"
+            alt="UCG logo"
+            style={{
+              width: '34px',
+              height: '34px',
+              objectFit: 'contain'
             }}
-           />
-          </div>
+          />
+        </div>
 
         <div>
           <h2
@@ -79,62 +77,71 @@ function Navbar({ user, onLogout }) {
           gap: '15px'
         }}
       >
-       <NavLink
-  to="/"
-  className={({ isActive }) =>
-    isActive ? 'nav-link active' : 'nav-link'
-  }
->
-  Početna
-</NavLink>
+        <NavLink
+          to="/"
+          className={({ isActive }) =>
+            isActive ? 'nav-link active' : 'nav-link'
+          }
+        >
+          Početna
+        </NavLink>
 
-<NavLink
-  to="/faculties"
-  className={({ isActive }) =>
-    isActive ? 'nav-link active' : 'nav-link'
-  }
->
-  Fakulteti
-</NavLink>
+        <NavLink
+          to="/faculties"
+          className={({ isActive }) =>
+            isActive ? 'nav-link active' : 'nav-link'
+          }
+        >
+          Fakulteti
+        </NavLink>
 
-<NavLink
-  to="/recommendation"
-  className={({ isActive }) =>
-    isActive ? 'nav-link active' : 'nav-link'
-  }
->
-  Pronađi fakultet
-</NavLink>
-<NavLink
-  to="/saved"
-  className={({ isActive }) =>
-    isActive ? 'nav-link active' : 'nav-link'
-  }
->
-  ★
-</NavLink>
-{user ? (
+        <NavLink
+          to="/recommendation"
+          className={({ isActive }) =>
+            isActive ? 'nav-link active' : 'nav-link'
+          }
+        >
+          Pronađi fakultet
+        </NavLink>
+
+        <NavLink
+          to="/saved"
+          title="Sačuvani fakulteti"
+          className={({ isActive }) =>
+            isActive ? 'nav-link active' : 'nav-link'
+          }
+        >
+          ★
+        </NavLink>
+
+        {user ? (
           <>
             <div className="nav-user-badge">
-  {user.full_name}
-</div>
+              {user.full_name}
+            </div>
 
             <button
-  onClick={onLogout}
-  className="nav-auth-button-filled"
->
-  Logout
-</button>
+              onClick={onLogout}
+              className="nav-auth-button-filled"
+            >
+              Odjava
+            </button>
           </>
         ) : (
           <>
-            <NavLink to="/faculties" className="nav-auth-button">
-  Prijava
-</NavLink>
+            <NavLink
+              to="/faculties"
+              className="nav-auth-button"
+            >
+              Prijava
+            </NavLink>
 
-<NavLink to="/faculties" className="nav-auth-button-filled">
-  Registracija
-</NavLink>
+            <NavLink
+              to="/faculties"
+              className="nav-auth-button-filled"
+            >
+              Registracija
+            </NavLink>
           </>
         )}
       </div>

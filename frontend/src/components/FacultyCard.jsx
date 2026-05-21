@@ -60,162 +60,207 @@ function FacultyCard({ faculty, onDelete, onUpdate, isAdmin }) {
 
   return (
     <div
+      onMouseEnter={(e) => {
+        e.currentTarget.style.transform = 'translateY(-6px)';
+        e.currentTarget.style.boxShadow =
+          '0 18px 40px rgba(15, 23, 42, 0.13)';
+        e.currentTarget.style.borderColor = '#b8d4ee';
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.transform = 'translateY(0)';
+        e.currentTarget.style.boxShadow =
+          '0 10px 28px rgba(15, 23, 42, 0.07)';
+        e.currentTarget.style.borderColor = '#e5e7eb';
+      }}
       style={{
         backgroundColor: 'white',
-        borderRadius: '18px',
-        boxShadow: '0 6px 18px rgba(0,0,0,0.08)',
-        border: '1px solid #e2e8f0',
+        borderRadius: '22px',
+        boxShadow: '0 10px 28px rgba(15, 23, 42, 0.07)',
+        border: '1px solid #e5e7eb',
         overflow: 'hidden',
         display: 'flex',
-        flexDirection: 'column'
+        flexDirection: 'column',
+        transition: '0.25s ease',
+        height: '100%'
       }}
     >
-      <img
-        src={faculty.cover_image || '/images/faculties/default.jpg'}
-        alt={faculty.name}
+      <div
         style={{
-          width: '100%',
-          height: '180px',
-          objectFit: 'cover',
-          display: 'block'
+          position: 'relative',
+          height: '190px',
+          overflow: 'hidden',
+          backgroundColor: '#eef4fb'
         }}
-      />
+      >
+        <img
+          src={faculty.cover_image || '/images/faculties/default.jpg'}
+          alt={faculty.name}
+          loading="lazy"
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            display: 'block'
+          }}
+        />
+
+        <span
+          style={{
+            position: 'absolute',
+            left: '16px',
+            top: '16px',
+            backgroundColor: 'rgba(255, 255, 255, 0.92)',
+            color: '#003B71',
+            padding: '7px 11px',
+            borderRadius: '999px',
+            fontSize: '12px',
+            fontWeight: '800',
+            boxShadow: '0 6px 16px rgba(15, 23, 42, 0.14)'
+          }}
+        >
+          📍 {faculty.city}
+        </span>
+      </div>
 
       <div
         style={{
-          padding: '22px',
+          padding: '24px',
           display: 'flex',
           flexDirection: 'column',
           flex: 1
         }}
       >
         <div style={{ flex: 1 }}>
-          <span
+          <p
             style={{
-              display: 'inline-block',
-              backgroundColor: '#e6f0fa',
-              color: '#003B71',
-              padding: '6px 10px',
-              borderRadius: '999px',
-              fontSize: '13px',
-              fontWeight: 'bold',
-              marginBottom: '14px'
+              margin: '0 0 8px',
+              color: '#64748b',
+              fontSize: '12px',
+              fontWeight: '800',
+              textTransform: 'uppercase',
+              letterSpacing: '0.7px'
             }}
           >
-            📍 {faculty.city}
-          </span>
+            Univerzitet Crne Gore
+          </p>
 
           <h2
             style={{
-              color: '#003B71',
+              color: '#0f172a',
               fontSize: '21px',
-              margin: '0 0 12px 0',
-              lineHeight: 1.3
+              margin: '0 0 12px',
+              lineHeight: 1.35,
+              fontWeight: '800'
             }}
           >
             {faculty.name}
           </h2>
 
-         <p
-  style={{
-    color: '#555',
-    lineHeight: 1.6,
-    margin: 0
-  }}
->
-  {faculty.short_description || faculty.description}
-</p>
+          <p
+            style={{
+              color: '#64748b',
+              lineHeight: 1.65,
+              margin: 0,
+              fontSize: '14px'
+            }}
+          >
+            {faculty.short_description || faculty.description}
+          </p>
         </div>
 
         <div
           style={{
             display: 'flex',
             gap: '10px',
-            marginTop: '22px',
-            flexWrap: 'wrap'
+            marginTop: '24px',
+            flexWrap: 'wrap',
+            alignItems: 'center'
           }}
         >
           <Link
-  to={`/faculties/${faculty.id}`}
-  onMouseEnter={(e) => {
-    e.currentTarget.style.transform = 'translateY(-3px)';
-    e.currentTarget.style.boxShadow = '0 8px 18px rgba(0, 59, 113, 0.28)';
-    e.currentTarget.style.backgroundColor = '#00509a';
-  }}
-  onMouseLeave={(e) => {
-    e.currentTarget.style.transform = 'translateY(0)';
-    e.currentTarget.style.boxShadow = 'none';
-    e.currentTarget.style.backgroundColor = '#003B71';
-  }}
-  style={{
-    padding: '10px 15px',
-    backgroundColor: '#003B71',
-    color: 'white',
-    textDecoration: 'none',
-    borderRadius: '10px',
-    fontWeight: 'bold',
-    fontSize: '14px',
-    transition: '0.25s ease'
-  }}
->
-  Detalji
-</Link>
+            to={`/faculties/${faculty.id}`}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'translateY(-3px)';
+              e.currentTarget.style.boxShadow =
+                '0 8px 18px rgba(0, 59, 113, 0.28)';
+              e.currentTarget.style.backgroundColor = '#00509a';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.boxShadow = 'none';
+              e.currentTarget.style.backgroundColor = '#003B71';
+            }}
+            style={{
+              padding: '11px 16px',
+              backgroundColor: '#003B71',
+              color: 'white',
+              textDecoration: 'none',
+              borderRadius: '12px',
+              fontWeight: '800',
+              fontSize: '14px',
+              transition: '0.25s ease'
+            }}
+          >
+            Detalji →
+          </Link>
 
           {isAdmin && (
             <>
               <button
-  onClick={handleEdit}
-  onMouseEnter={(e) => {
-    e.currentTarget.style.transform = 'translateY(-3px)';
-    e.currentTarget.style.boxShadow = '0 8px 18px rgba(138, 90, 0, 0.22)';
-    e.currentTarget.style.backgroundColor = '#ffe8a3';
-  }}
-  onMouseLeave={(e) => {
-    e.currentTarget.style.transform = 'translateY(0)';
-    e.currentTarget.style.boxShadow = 'none';
-    e.currentTarget.style.backgroundColor = '#fff4db';
-  }}
-  style={{
-    padding: '10px 15px',
-    backgroundColor: '#fff4db',
-    color: '#8a5a00',
-    border: '1px solid #f0c36d',
-    borderRadius: '10px',
-    fontWeight: 'bold',
-    cursor: 'pointer',
-    fontSize: '14px',
-    transition: '0.25s ease'
-  }}
->
-  Izmijeni
-</button>
+                onClick={handleEdit}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-3px)';
+                  e.currentTarget.style.boxShadow =
+                    '0 8px 18px rgba(138, 90, 0, 0.22)';
+                  e.currentTarget.style.backgroundColor = '#ffe8a3';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = 'none';
+                  e.currentTarget.style.backgroundColor = '#fff4db';
+                }}
+                style={{
+                  padding: '11px 15px',
+                  backgroundColor: '#fff4db',
+                  color: '#8a5a00',
+                  border: '1px solid #f0c36d',
+                  borderRadius: '12px',
+                  fontWeight: '800',
+                  cursor: 'pointer',
+                  fontSize: '14px',
+                  transition: '0.25s ease'
+                }}
+              >
+                Izmijeni
+              </button>
 
-            <button
-  onClick={handleDelete}
-  onMouseEnter={(e) => {
-    e.currentTarget.style.transform = 'translateY(-3px)';
-    e.currentTarget.style.boxShadow = '0 8px 18px rgba(180, 35, 24, 0.22)';
-    e.currentTarget.style.backgroundColor = '#ffdada';
-  }}
-  onMouseLeave={(e) => {
-    e.currentTarget.style.transform = 'translateY(0)';
-    e.currentTarget.style.boxShadow = 'none';
-    e.currentTarget.style.backgroundColor = '#fdecec';
-  }}
-  style={{
-    padding: '10px 15px',
-    backgroundColor: '#fdecec',
-    color: '#b42318',
-    border: '1px solid #f2b8b5',
-    borderRadius: '10px',
-    fontWeight: 'bold',
-    cursor: 'pointer',
-    fontSize: '14px',
-    transition: '0.25s ease'
-  }}
->
-  Obriši
-</button>
+              <button
+                onClick={handleDelete}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-3px)';
+                  e.currentTarget.style.boxShadow =
+                    '0 8px 18px rgba(180, 35, 24, 0.22)';
+                  e.currentTarget.style.backgroundColor = '#ffdada';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = 'none';
+                  e.currentTarget.style.backgroundColor = '#fdecec';
+                }}
+                style={{
+                  padding: '11px 15px',
+                  backgroundColor: '#fdecec',
+                  color: '#b42318',
+                  border: '1px solid #f2b8b5',
+                  borderRadius: '12px',
+                  fontWeight: '800',
+                  cursor: 'pointer',
+                  fontSize: '14px',
+                  transition: '0.25s ease'
+                }}
+              >
+                Obriši
+              </button>
             </>
           )}
         </div>
