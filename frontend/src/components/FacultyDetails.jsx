@@ -73,6 +73,14 @@ function FacultyDetails({ faculties, user }) {
     (program) => program.degree_level === 'doktorske'
   );
 
+  const averageRating =
+    reviews.length > 0
+      ? (
+          reviews.reduce((sum, review) => sum + Number(review.rating), 0) /
+          reviews.length
+        ).toFixed(1)
+      : '0.0';
+
   const handleReviewChange = (e) => {
     setReviewData({
       ...reviewData,
@@ -126,6 +134,35 @@ function FacultyDetails({ faculties, user }) {
     } catch (err) {
       console.error(err);
       setReviewMessage('Server nije dostupan.');
+    }
+  };
+
+  const handleDeleteReview = async (reviewId) => {
+    const confirmed = window.confirm(
+      'Da li ste sigurni da želite obrisati ovu recenziju?'
+    );
+
+    if (!confirmed) return;
+
+    try {
+      const response = await fetch(
+        `http://localhost:5000/reviews/${reviewId}`,
+        {
+          method: 'DELETE'
+        }
+      );
+
+      if (!response.ok) {
+        alert('Greška pri brisanju recenzije.');
+        return;
+      }
+
+      setReviews(
+        reviews.filter((review) => review.id !== reviewId)
+      );
+    } catch (err) {
+      console.error(err);
+      alert('Server nije dostupan.');
     }
   };
 
@@ -610,77 +647,176 @@ function FacultyDetails({ faculties, user }) {
             <div
               style={{
                 backgroundColor: '#f8fbff',
-                padding: '26px',
-                borderRadius: '16px',
+                padding: '28px',
+                borderRadius: '18px',
                 border: '1px solid #e5e7eb',
                 marginBottom: '28px'
               }}
             >
-              <h2
+              <div
                 style={{
-                  color: '#003B71',
-                  margin: '0 0 8px',
-                  fontSize: '24px'
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  gap: '20px',
+                  alignItems: 'center',
+                  flexWrap: 'wrap',
+                  marginBottom: '24px'
                 }}
               >
-                Recenzije studenata
-              </h2>
+                <div>
+                  <h2
+                    style={{
+                      color: '#003B71',
+                      margin: '0 0 8px',
+                      fontSize: '25px'
+                    }}
+                  >
+                    Recenzije studenata
+                  </h2>
 
-              <p
-                style={{
-                  margin: '0 0 22px',
-                  color: '#64748b',
-                  fontSize: '14px'
-                }}
-              >
-                Pogledaj iskustva drugih korisnika ili ostavi svoju recenziju.
-              </p>
+                  <p
+                    style={{
+                      margin: 0,
+                      color: '#64748b',
+                      fontSize: '14px',
+                      lineHeight: 1.6
+                    }}
+                  >
+                    Pogledaj iskustva korisnika i ocjene za ovaj fakultet.
+                  </p>
+                </div>
+
+                <div
+                  style={{
+                    backgroundColor: 'white',
+                    border: '1px solid #e5e7eb',
+                    borderRadius: '16px',
+                    padding: '18px 22px',
+                    minWidth: '170px',
+                    textAlign: 'center',
+                    boxShadow: '0 8px 22px rgba(15, 23, 42, 0.06)'
+                  }}
+                >
+                  <div
+                    style={{
+                      color: '#f59e0b',
+                      fontSize: '24px',
+                      fontWeight: 'bold',
+                      marginBottom: '4px'
+                    }}
+                  >
+                    ★ {averageRating}
+                  </div>
+
+                  <p
+                    style={{
+                      margin: 0,
+                      color: '#64748b',
+                      fontSize: '13px',
+                      fontWeight: 'bold'
+                    }}
+                  >
+                    {reviews.length} recenzija
+                  </p>
+                </div>
+              </div>
 
               {user ? (
                 <form
                   onSubmit={handleReviewSubmit}
                   style={{
                     backgroundColor: 'white',
-                    padding: '22px',
-                    borderRadius: '16px',
+                    padding: '24px',
+                    borderRadius: '18px',
                     border: '1px solid #e5e7eb',
                     boxShadow: '0 8px 22px rgba(15, 23, 42, 0.06)',
-                    marginBottom: '26px'
+                    marginBottom: '28px'
                   }}
                 >
-                  <label
+                  <h3
                     style={{
-                      display: 'block',
                       color: '#003B71',
-                      fontWeight: 'bold',
-                      marginBottom: '8px'
+                      margin: '0 0 16px',
+                      fontSize: '19px'
                     }}
                   >
-                    Ocjena
-                  </label>
+                    Ostavi recenziju
+                  </h3>
 
-                  <select
-                    name="rating"
-                    value={reviewData.rating}
-                    onChange={handleReviewChange}
-                    style={{
-                      width: '100%',
-                      padding: '13px 15px',
-                      borderRadius: '12px',
-                      border: '1px solid #cbd5e1',
-                      backgroundColor: 'white',
-                      color: '#0f172a',
-                      fontSize: '15px',
-                      marginBottom: '14px',
-                      outline: 'none'
-                    }}
-                  >
-                    <option value="5">5 - Odlično</option>
-                    <option value="4">4 - Vrlo dobro</option>
-                    <option value="3">3 - Dobro</option>
-                    <option value="2">2 - Dovoljno</option>
-                    <option value="1">1 - Loše</option>
-                  </select>
+                    <label
+  style={{
+    display: 'block',
+    color: '#003B71',
+    fontWeight: 'bold',
+    marginBottom: '10px'
+  }}
+>
+  Ocjena
+</label>
+
+<div
+  style={{
+    display: 'flex',
+    gap: '8px',
+    marginBottom: '18px',
+    alignItems: 'center'
+  }}
+>
+  {[1, 2, 3, 4, 5].map((star) => (
+    <button
+      key={star}
+      type="button"
+      onClick={() =>
+        setReviewData({
+          ...reviewData,
+          rating: String(star)
+        })
+      }
+      onMouseEnter={(e) => {
+        const parent = e.currentTarget.parentElement;
+        const buttons = parent.querySelectorAll('button');
+
+        buttons.forEach((button, index) => {
+          button.style.color = index < star ? '#f59e0b' : '#cbd5e1';
+          button.style.transform = index < star ? 'scale(1.12)' : 'scale(1)';
+        });
+      }}
+      onMouseLeave={(e) => {
+        const parent = e.currentTarget.parentElement;
+        const buttons = parent.querySelectorAll('button');
+        const currentRating = Number(reviewData.rating);
+
+        buttons.forEach((button, index) => {
+          button.style.color = index < currentRating ? '#f59e0b' : '#cbd5e1';
+          button.style.transform = 'scale(1)';
+        });
+      }}
+      style={{
+        backgroundColor: 'transparent',
+        border: 'none',
+        color: star <= Number(reviewData.rating) ? '#f59e0b' : '#cbd5e1',
+        fontSize: '30px',
+        cursor: 'pointer',
+        padding: '0 2px',
+        transition: '0.2s ease',
+        lineHeight: 1
+      }}
+    >
+      ★
+    </button>
+  ))}
+
+  <span
+    style={{
+      marginLeft: '10px',
+      color: '#64748b',
+      fontWeight: 'bold',
+      fontSize: '14px'
+    }}
+  >
+    {reviewData.rating}/5
+  </span>
+</div>
 
                   <label
                     style={{
@@ -700,7 +836,7 @@ function FacultyDetails({ faculties, user }) {
                     onChange={handleReviewChange}
                     style={{
                       width: '100%',
-                      minHeight: '100px',
+                      minHeight: '105px',
                       padding: '13px 15px',
                       borderRadius: '12px',
                       border: '1px solid #cbd5e1',
@@ -747,16 +883,18 @@ function FacultyDetails({ faculties, user }) {
                 <div
                   style={{
                     backgroundColor: 'white',
-                    padding: '20px',
-                    borderRadius: '14px',
+                    padding: '22px',
+                    borderRadius: '16px',
                     border: '1px solid #e5e7eb',
-                    marginBottom: '24px'
+                    marginBottom: '24px',
+                    boxShadow: '0 8px 22px rgba(15, 23, 42, 0.05)'
                   }}
                 >
                   <p
                     style={{
                       margin: 0,
-                      color: '#64748b'
+                      color: '#64748b',
+                      lineHeight: 1.6
                     }}
                   >
                     Za dodavanje recenzije potrebno je da se prijavite.
@@ -769,9 +907,33 @@ function FacultyDetails({ faculties, user }) {
                   Učitavanje recenzija...
                 </p>
               ) : reviews.length === 0 ? (
-                <p style={{ color: '#64748b', margin: 0 }}>
-                  Još nema recenzija za ovaj fakultet.
-                </p>
+                <div
+                  style={{
+                    backgroundColor: 'white',
+                    padding: '24px',
+                    borderRadius: '16px',
+                    border: '1px solid #e5e7eb',
+                    textAlign: 'center'
+                  }}
+                >
+                  <h3
+                    style={{
+                      color: '#003B71',
+                      margin: '0 0 8px'
+                    }}
+                  >
+                    Još nema recenzija
+                  </h3>
+
+                  <p
+                    style={{
+                      color: '#64748b',
+                      margin: 0
+                    }}
+                  >
+                    Budi prvi/prva koji će ostaviti mišljenje o ovom fakultetu.
+                  </p>
+                </div>
               ) : (
                 <div
                   style={{
@@ -784,8 +946,8 @@ function FacultyDetails({ faculties, user }) {
                       key={review.id}
                       style={{
                         backgroundColor: 'white',
-                        padding: '20px',
-                        borderRadius: '16px',
+                        padding: '22px',
+                        borderRadius: '18px',
                         border: '1px solid #e5e7eb',
                         boxShadow: '0 8px 22px rgba(15, 23, 42, 0.06)'
                       }}
@@ -795,30 +957,78 @@ function FacultyDetails({ faculties, user }) {
                           display: 'flex',
                           justifyContent: 'space-between',
                           gap: '12px',
-                          marginBottom: '10px',
-                          flexWrap: 'wrap'
+                          marginBottom: '12px',
+                          flexWrap: 'wrap',
+                          alignItems: 'center'
                         }}
                       >
-                        <strong style={{ color: '#003B71' }}>
-                          {review.full_name}
-                        </strong>
-
-                        <span
+                        <div
                           style={{
-                            color: '#f59e0b',
-                            fontWeight: 'bold'
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '12px'
                           }}
                         >
-                          {'★'.repeat(review.rating)}
-                          {'☆'.repeat(5 - review.rating)}
-                        </span>
+                          <div
+                            style={{
+                              width: '42px',
+                              height: '42px',
+                              borderRadius: '50%',
+                              backgroundColor: '#e8f1fb',
+                              color: '#003B71',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              fontWeight: 'bold'
+                            }}
+                          >
+                            {review.full_name?.charAt(0).toUpperCase()}
+                          </div>
+
+                          <div>
+                            <strong style={{ color: '#003B71' }}>
+                              {review.full_name}
+                            </strong>
+
+                            <div
+                              style={{
+                                color: '#f59e0b',
+                                fontWeight: 'bold',
+                                fontSize: '14px',
+                                marginTop: '3px'
+                              }}
+                            >
+                              {'★'.repeat(review.rating)}
+                              {'☆'.repeat(5 - review.rating)}
+                            </div>
+                          </div>
+                        </div>
+
+                        {user?.role === 'admin' && (
+                          <button
+                            onClick={() => handleDeleteReview(review.id)}
+                            style={{
+                              backgroundColor: '#fdecec',
+                              color: '#b42318',
+                              border: '1px solid #f2b8b5',
+                              padding: '8px 12px',
+                              borderRadius: '10px',
+                              fontWeight: 'bold',
+                              cursor: 'pointer',
+                              fontSize: '12px'
+                            }}
+                          >
+                            Obriši
+                          </button>
+                        )}
                       </div>
 
                       <p
                         style={{
                           margin: 0,
                           color: '#475569',
-                          lineHeight: 1.7
+                          lineHeight: 1.7,
+                          fontSize: '15px'
                         }}
                       >
                         {review.comment || 'Korisnik nije ostavio komentar.'}

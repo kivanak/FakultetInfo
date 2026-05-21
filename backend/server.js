@@ -87,6 +87,69 @@ app.get('/faculties/:id/reviews', async (req, res) => {
     res.status(500).send('Greška pri učitavanju recenzija.');
   }
 });
+
+// dodavanje recenzije
+app.post('/faculties/:id/reviews', async (req, res) => {
+  try {
+    const facultyId = req.params.id;
+
+    const {
+      user_id,
+      rating,
+      comment
+    } = req.body;
+
+    if (!user_id || !rating) {
+      return res.status(400).json({
+        message: 'Korisnik i ocjena su obavezni.'
+      });
+    }
+
+    const result = await pool.query(
+      `INSERT INTO reviews
+       (user_id, faculty_id, rating, comment)
+       VALUES ($1, $2, $3, $4)
+       RETURNING *`,
+      [
+        user_id,
+        facultyId,
+        rating,
+        comment
+      ]
+    );
+
+    res.status(201).json(result.rows[0]);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Greška pri dodavanju recenzije.');
+  }
+});
+
+// brisanje recenzije
+app.delete('/reviews/:id', async (req, res) => {
+  try {
+    const reviewId = req.params.id;
+
+    const result = await pool.query(
+      'DELETE FROM reviews WHERE id = $1 RETURNING *',
+      [reviewId]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({
+        message: 'Recenzija nije pronađena.'
+      });
+    }
+
+    res.json({
+      message: 'Recenzija je obrisana.'
+    });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Greška pri brisanju recenzije.');
+  }
+});
+
 // sacuvani fakulteti za korisnika
 app.get('/users/:id/saved-faculties', async (req, res) => {
   try {
@@ -171,43 +234,6 @@ app.delete('/saved-faculties/:userId/:facultyId', async (req, res) => {
   }
 });
 
-// dodavanje recenzije
-app.post('/faculties/:id/reviews', async (req, res) => {
-  try {
-    const facultyId = req.params.id;
-
-    const {
-      user_id,
-      rating,
-      comment
-    } = req.body;
-
-    if (!user_id || !rating) {
-      return res.status(400).json({
-        message: 'Korisnik i ocjena su obavezni.'
-      });
-    }
-
-    const result = await pool.query(
-      `INSERT INTO reviews
-       (user_id, faculty_id, rating, comment)
-       VALUES ($1, $2, $3, $4)
-       RETURNING *`,
-      [
-        user_id,
-        facultyId,
-        rating,
-        comment
-      ]
-    );
-
-    res.status(201).json(result.rows[0]);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Greška pri dodavanju recenzije.');
-  }
-});
-
 // studijski programi za jedan fakultet
 app.get('/faculties/:id/programs', async (req, res) => {
   try {
@@ -264,6 +290,8 @@ app.post('/faculties', async (req, res) => {
     res.status(500).send('Greška pri dodavanju fakulteta.');
   }
 });
+
+// brisanje fakulteta
 app.delete('/faculties/:id', async (req, res) => {
   try {
     const id = req.params.id;
@@ -283,6 +311,8 @@ app.delete('/faculties/:id', async (req, res) => {
     res.status(500).send('Greška pri brisanju fakulteta.');
   }
 });
+
+// izmjena fakulteta
 app.put('/faculties/:id', async (req, res) => {
   try {
     const id = req.params.id;
@@ -335,7 +365,7 @@ app.put('/faculties/:id', async (req, res) => {
   }
 });
 
-
+// registracija
 app.post('/register', async (req, res) => {
   try {
     const { full_name, email, password } = req.body;
@@ -379,6 +409,7 @@ app.post('/register', async (req, res) => {
   }
 });
 
+// login
 app.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -441,9 +472,10 @@ app.post('/login', async (req, res) => {
     });
   }
 });
+
 // pokretanje servera
 const PORT = 5000;
-console.log('BACKEND SA SAVED FACULTIES RUTAMA JE POKRENUT');
+
 app.listen(PORT, () => {
   console.log(`Server pokrenut na portu ${PORT}`);
 });
