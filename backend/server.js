@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const pool = require('./config/db'); // spajanje baze
 
 const express = require('express'); // biblioteka za node.js
@@ -433,15 +435,15 @@ app.post('/login', async (req, res) => {
       });
     }
 
-    const token = jwt.sign(
-      {
-        id: user.id,
-        email: user.email,
-        role: user.role
-      },
-      'tajna_lozinka',
-      { expiresIn: '1h' }
-    );
+ const token = jwt.sign(
+  {
+    id: user.id,
+    email: user.email,
+    role: user.role
+  },
+  process.env.JWT_SECRET,
+  { expiresIn: '1h' }
+);
 
     res.json({
       message: 'Login uspješan.',
