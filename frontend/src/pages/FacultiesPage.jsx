@@ -6,6 +6,7 @@ import RegisterForm from '../components/RegisterForm';
 import LoginForm from '../components/LoginForm';
 import MontenegroMap from '../components/MontenegroMap';
 import FilterPanel from '../components/FilterPanel';
+import './FacultiesPage.css';
 
 function FacultiesPage({
   user,
@@ -28,6 +29,7 @@ function FacultiesPage({
 
   return (
     <main
+      className="faculties-page"
       style={{
         width: '94%',
         maxWidth: '1520px',
@@ -36,6 +38,7 @@ function FacultiesPage({
       }}
     >
       <section
+        className="faculties-hero"
         style={{
           background:
             'linear-gradient(135deg, #003B71 0%, #0057a3 100%)',
@@ -154,7 +157,8 @@ function FacultiesPage({
               display: 'flex',
               justifyContent: 'center',
               gap: '14px',
-              marginBottom: authForm ? '24px' : '0'
+              marginBottom: authForm ? '24px' : '0',
+              flexWrap: 'wrap'
             }}
           >
             <button
@@ -256,7 +260,7 @@ function FacultiesPage({
         setCityFilter={setCityFilter}
       />
 
-      <section>
+      <section className="faculties-results-section">
         <div
           style={{
             backgroundColor: 'white',
@@ -363,6 +367,7 @@ function FacultiesPage({
         ) : (
           <>
             <div
+              className="faculties-first-grid"
               style={{
                 display: 'grid',
                 gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
@@ -386,6 +391,7 @@ function FacultiesPage({
 
             {remainingFaculties.length > 0 && (
               <div
+                className="faculties-grid"
                 style={{
                   display: 'grid',
                   gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',

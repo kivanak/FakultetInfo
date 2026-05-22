@@ -713,3 +713,256 @@
   font-size: 13px;
   text-align: center;
 }
+
+/* Responsive - HomePage */
+
+@media (max-width: 1200px) {
+  .home-hero-container {
+    grid-template-columns: 1fr;
+    gap: 46px;
+  }
+
+  .home-hero-left {
+    text-align: center;
+  }
+
+  .home-hero-title,
+  .home-hero-description {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .home-hero-buttons,
+  .home-hero-stats {
+    justify-content: center;
+  }
+
+  .features-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .cities-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .cities-grid .city-card:nth-child(5),
+  .cities-grid .city-card:nth-child(6),
+  .cities-grid .city-card:nth-child(7) {
+    grid-column: auto;
+  }
+
+  .footer-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .home-hero-section {
+    padding: 62px 22px 60px;
+  }
+
+  .home-hero-title {
+    font-size: 48px;
+  }
+
+  .home-hero-description {
+    font-size: 18px;
+  }
+
+  .home-hero-image-card {
+    max-width: 520px;
+    border-radius: 28px;
+  }
+
+  .home-hero-image-card img {
+    height: 360px;
+  }
+
+  .home-section {
+    padding: 58px 22px;
+  }
+
+  .home-container {
+    max-width: 720px;
+  }
+
+  .section-header.row {
+    align-items: flex-start;
+  }
+
+  .steps-grid,
+  .featured-grid,
+  .news-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cities-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .cta-content h2 {
+    font-size: 32px;
+  }
+}
+
+@media (max-width: 650px) {
+  .home-hero-section {
+    padding: 48px 18px 52px;
+  }
+
+  .home-hero-title {
+    font-size: 38px;
+    line-height: 1.12;
+    letter-spacing: -1px;
+  }
+
+  .home-hero-description {
+    font-size: 16px;
+    line-height: 1.65;
+  }
+
+  .home-hero-buttons {
+    flex-direction: column;
+  }
+
+  .hero-primary-btn,
+  .hero-secondary-btn {
+    width: 100%;
+  }
+
+  .home-hero-stats {
+    flex-direction: column;
+  }
+
+  .home-hero-stat-card {
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+
+  .home-hero-image-card {
+    border-width: 6px;
+    border-radius: 24px;
+  }
+
+  .home-hero-image-card img {
+    height: 280px;
+  }
+
+  .home-hero-floating-card {
+    left: 14px;
+    right: 14px;
+    bottom: 14px;
+    padding: 14px;
+    border-radius: 18px;
+  }
+
+  .home-hero-floating-icon {
+    width: 44px;
+    height: 44px;
+    font-size: 20px;
+  }
+
+  .home-hero-floating-card h3 {
+    font-size: 15px;
+  }
+
+  .home-hero-floating-card p {
+    font-size: 12px;
+  }
+
+  .home-section {
+    padding: 48px 18px;
+  }
+
+  .section-header h2 {
+    font-size: 26px;
+  }
+
+  .features-grid,
+  .cities-grid,
+  .steps-grid,
+  .featured-grid,
+  .news-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .feature-card,
+  .step-card,
+  .news-card {
+    padding: 22px;
+  }
+
+  .city-card {
+    min-height: 165px;
+  }
+
+  .city-image {
+    width: 150px;
+    height: 76px;
+  }
+
+  .cta-section {
+    padding: 58px 18px;
+  }
+
+  .cta-content h2 {
+    font-size: 28px;
+  }
+
+  .cta-content p {
+    font-size: 15px;
+  }
+
+  .cta-buttons {
+    flex-direction: column;
+  }
+
+  .cta-primary-btn,
+  .cta-secondary-btn,
+  .cta-light-btn {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .footer-section {
+    padding: 46px 18px 24px;
+  }
+
+  .footer-container {
+    grid-template-columns: 1fr;
+    gap: 26px;
+  }
+
+  .footer-brand p {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 420px) {
+  .home-hero-title {
+    font-size: 32px;
+  }
+
+  .home-hero-badge {
+    font-size: 12px;
+    padding: 8px 14px;
+  }
+
+  .home-hero-image-card img {
+    height: 240px;
+  }
+
+  .home-hero-floating-card {
+    position: static;
+    margin: 12px;
+  }
+
+  .section-header h2 {
+    font-size: 24px;
+  }
+
+  .home-faculty-card img {
+    height: 165px;
+  }
+}

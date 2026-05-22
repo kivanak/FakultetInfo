@@ -13,6 +13,7 @@
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
+  white-space: nowrap;
 }
 
 .nav-link:hover {
@@ -52,6 +53,7 @@
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
+  white-space: nowrap;
 }
 
 .nav-auth-button:hover {
@@ -77,6 +79,7 @@
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
+  white-space: nowrap;
 }
 
 .nav-auth-button-filled:hover {
@@ -99,4 +102,101 @@
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
+  white-space: nowrap;
+}
+
+/* Tablet */
+@media (max-width: 1100px) {
+  .navbar {
+    height: auto !important;
+    padding: 14px 24px !important;
+    gap: 18px;
+  }
+
+  .navbar-links {
+    gap: 10px !important;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  .nav-link,
+  .nav-auth-button,
+  .nav-auth-button-filled,
+  .nav-user-badge {
+    padding: 10px 14px;
+    min-height: 44px;
+    font-size: 14px;
+  }
+}
+
+/* Manji tablet */
+@media (max-width: 850px) {
+  .navbar {
+    flex-direction: column;
+    align-items: stretch !important;
+    padding: 16px 20px !important;
+  }
+
+  .navbar-brand {
+    justify-content: center;
+  }
+
+  .navbar-links {
+    justify-content: center !important;
+    width: 100%;
+  }
+
+  .nav-link,
+  .nav-auth-button,
+  .nav-auth-button-filled,
+  .nav-user-badge {
+    flex: 1 1 auto;
+  }
+}
+
+/* Telefon */
+@media (max-width: 600px) {
+  .navbar {
+    padding: 14px 14px !important;
+  }
+
+  .navbar-brand h2 {
+    font-size: 20px !important;
+  }
+
+  .navbar-brand p {
+    font-size: 11px !important;
+  }
+
+  .navbar-links {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 9px !important;
+  }
+
+  .nav-link,
+  .nav-auth-button,
+  .nav-auth-button-filled,
+  .nav-user-badge {
+    width: 100%;
+    min-height: 42px;
+    padding: 9px 10px;
+    font-size: 13px;
+    border-radius: 10px;
+  }
+
+  .nav-user-badge {
+    grid-column: span 2;
+  }
+}
+
+/* Baš mali telefoni */
+@media (max-width: 390px) {
+  .navbar-links {
+    grid-template-columns: 1fr;
+  }
+
+  .nav-user-badge {
+    grid-column: span 1;
+  }
 }

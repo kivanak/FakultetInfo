@@ -4,6 +4,7 @@ import './Navbar.css';
 function Navbar({ user, onLogout }) {
   return (
     <nav
+      className="navbar"
       style={{
         backgroundColor: 'white',
         height: '78px',
@@ -18,6 +19,7 @@ function Navbar({ user, onLogout }) {
       }}
     >
       <div
+        className="navbar-brand"
         style={{
           display: 'flex',
           alignItems: 'center',
@@ -71,6 +73,7 @@ function Navbar({ user, onLogout }) {
       </div>
 
       <div
+        className="navbar-links"
         style={{
           display: 'flex',
           alignItems: 'center',

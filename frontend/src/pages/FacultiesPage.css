@@ -1,0 +1,91 @@
+/* Responsive - FacultiesPage */
+
+@media (max-width: 1200px) {
+  .faculties-page {
+    width: 92% !important;
+    padding-top: 38px !important;
+  }
+
+  .faculties-first-grid,
+  .faculties-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 850px) {
+  .faculties-page {
+    width: 94% !important;
+    padding-top: 30px !important;
+    padding-bottom: 55px !important;
+  }
+
+  .faculties-hero {
+    padding: 36px 28px !important;
+    border-radius: 22px !important;
+  }
+
+  .faculties-hero h1 {
+    font-size: 36px !important;
+  }
+
+  .faculties-hero p {
+    font-size: 15px !important;
+  }
+
+  .faculties-first-grid,
+  .faculties-grid {
+    grid-template-columns: 1fr !important;
+    gap: 22px !important;
+  }
+
+  .faculties-results-section > div:first-child {
+    padding: 20px !important;
+  }
+
+  .faculties-results-section h2 {
+    font-size: 26px !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .faculties-page {
+    width: 92% !important;
+    padding-top: 24px !important;
+  }
+
+  .faculties-hero {
+    padding: 30px 22px !important;
+    margin-bottom: 24px !important;
+  }
+
+  .faculties-hero h1 {
+    font-size: 30px !important;
+    line-height: 1.18 !important;
+  }
+
+  .faculties-hero p {
+    font-size: 14px !important;
+    line-height: 1.65 !important;
+  }
+
+  .faculties-results-section > div:first-child {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+  }
+
+  .faculties-results-section > div:first-child span {
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+  }
+}
+
+@media (max-width: 420px) {
+  .faculties-hero h1 {
+    font-size: 27px !important;
+  }
+
+  .faculties-hero {
+    padding: 26px 18px !important;
+  }
+}
