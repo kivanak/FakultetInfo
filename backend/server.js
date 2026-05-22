@@ -17,17 +17,6 @@ app.get('/', (req, res) => {
   res.send('Server radi!');
 });
 
-// test konekcije sa bazom
-app.get('/test-db', async (req, res) => {
-  try {
-    const result = await pool.query('SELECT NOW()');
-    res.json(result.rows);
-  } catch (err) {
-    console.error(err);
-    res.status(500).send('Greška u konekciji sa bazom');
-  }
-});
-
 // svi fakulteti
 app.get('/faculties', async (req, res) => {
   try {
