@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import './SavedFacultiesPage.css';
 
 function SavedFacultiesPage({ user }) {
   const [savedFaculties, setSavedFaculties] = useState([]);
@@ -51,6 +52,7 @@ function SavedFacultiesPage({ user }) {
   if (!user) {
     return (
       <main
+        className="saved-page saved-page-guest"
         style={{
           minHeight: '100vh',
           background:
@@ -59,6 +61,7 @@ function SavedFacultiesPage({ user }) {
         }}
       >
         <div
+          className="saved-empty-card"
           style={{
             maxWidth: '760px',
             margin: '0 auto',
@@ -145,6 +148,7 @@ function SavedFacultiesPage({ user }) {
 
   return (
     <main
+      className="saved-page"
       style={{
         minHeight: '100vh',
         background:
@@ -153,6 +157,7 @@ function SavedFacultiesPage({ user }) {
       }}
     >
       <div
+        className="saved-container"
         style={{
           width: '92%',
           maxWidth: '1180px',
@@ -160,6 +165,7 @@ function SavedFacultiesPage({ user }) {
         }}
       >
         <section
+          className="saved-hero"
           style={{
             background:
               'linear-gradient(135deg, #003B71 0%, #0057a3 100%)',
@@ -242,6 +248,7 @@ function SavedFacultiesPage({ user }) {
         </section>
 
         <div
+          className="saved-summary"
           style={{
             backgroundColor: 'white',
             border: '1px solid #dbeafe',
@@ -312,6 +319,7 @@ function SavedFacultiesPage({ user }) {
           </div>
         ) : savedFaculties.length === 0 ? (
           <div
+            className="saved-empty-card"
             style={{
               backgroundColor: 'white',
               padding: '42px 30px',
@@ -379,6 +387,7 @@ function SavedFacultiesPage({ user }) {
           </div>
         ) : (
           <div
+            className="saved-grid"
             style={{
               display: 'grid',
               gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
@@ -388,6 +397,7 @@ function SavedFacultiesPage({ user }) {
             {savedFaculties.map((faculty) => (
               <div
                 key={faculty.id}
+                className="saved-faculty-card"
                 onMouseEnter={(e) => {
                   e.currentTarget.style.transform = 'translateY(-6px)';
                   e.currentTarget.style.boxShadow =
@@ -412,6 +422,7 @@ function SavedFacultiesPage({ user }) {
                 }}
               >
                 <div
+                  className="saved-card-image"
                   style={{
                     position: 'relative',
                     height: '190px',
@@ -449,6 +460,7 @@ function SavedFacultiesPage({ user }) {
                 </div>
 
                 <div
+                  className="saved-card-content"
                   style={{
                     padding: '24px',
                     display: 'flex',
@@ -494,6 +506,7 @@ function SavedFacultiesPage({ user }) {
                   </p>
 
                   <div
+                    className="saved-card-actions"
                     style={{
                       display: 'flex',
                       gap: '10px',

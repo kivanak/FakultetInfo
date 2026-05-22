@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import './RecommendationPage.css';
 
 function RecommendationPage({ user, faculties }) {
   const [answers, setAnswers] = useState({
@@ -29,8 +30,7 @@ function RecommendationPage({ user, faculties }) {
     'Cetinje',
     'Kotor',
     'Bar',
-    'Bijelo Polje',
-    'Herceg Novi'
+    'Bijelo Polje'
   ];
 
   const styles = [
@@ -233,6 +233,7 @@ function RecommendationPage({ user, faculties }) {
 
   return (
     <main
+      className="recommendation-page"
       style={{
         minHeight: '100vh',
         background:
@@ -241,6 +242,7 @@ function RecommendationPage({ user, faculties }) {
       }}
     >
       <div
+        className="recommendation-container"
         style={{
           width: '92%',
           maxWidth: '1180px',
@@ -248,6 +250,7 @@ function RecommendationPage({ user, faculties }) {
         }}
       >
         <section
+          className="recommendation-hero"
           style={{
             background:
               'linear-gradient(135deg, #003B71 0%, #0057a3 100%)',
@@ -348,6 +351,7 @@ function RecommendationPage({ user, faculties }) {
         )}
 
         <section
+          className="recommendation-quiz-card"
           style={{
             backgroundColor: 'white',
             borderRadius: '24px',
@@ -405,6 +409,7 @@ function RecommendationPage({ user, faculties }) {
             }}
           >
             <div
+              className="recommendation-question-card"
               style={{
                 backgroundColor: '#f8fbff',
                 border: '1px solid #e5e7eb',
@@ -441,6 +446,7 @@ function RecommendationPage({ user, faculties }) {
             </div>
 
             <div
+              className="recommendation-question-card"
               style={{
                 backgroundColor: '#f8fbff',
                 border: '1px solid #e5e7eb',
@@ -477,6 +483,7 @@ function RecommendationPage({ user, faculties }) {
             </div>
 
             <div
+              className="recommendation-question-card"
               style={{
                 backgroundColor: '#f8fbff',
                 border: '1px solid #e5e7eb',
@@ -513,6 +520,7 @@ function RecommendationPage({ user, faculties }) {
             </div>
 
             <div
+              className="recommendation-question-card"
               style={{
                 backgroundColor: '#f8fbff',
                 border: '1px solid #e5e7eb',
@@ -550,6 +558,7 @@ function RecommendationPage({ user, faculties }) {
           </div>
 
           <div
+            className="recommendation-actions"
             style={{
               display: 'flex',
               gap: '12px',
@@ -592,6 +601,7 @@ function RecommendationPage({ user, faculties }) {
 
         {showResults && (
           <section
+            className="recommendation-results"
             style={{
               backgroundColor: 'white',
               borderRadius: '24px',
@@ -701,6 +711,7 @@ function RecommendationPage({ user, faculties }) {
               </div>
             ) : (
               <div
+                className="recommendation-results-grid"
                 style={{
                   display: 'grid',
                   gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',

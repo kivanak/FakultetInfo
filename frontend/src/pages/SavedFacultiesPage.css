@@ -1,0 +1,118 @@
+/* Responsive - SavedFacultiesPage */
+
+@media (max-width: 900px) {
+  .saved-page {
+    padding: 34px 22px 60px !important;
+  }
+
+  .saved-container {
+    width: 100% !important;
+    max-width: 760px !important;
+  }
+
+  .saved-hero {
+    padding: 38px 30px !important;
+    border-radius: 22px !important;
+  }
+
+  .saved-hero h1 {
+    font-size: 36px !important;
+  }
+
+  .saved-hero p {
+    font-size: 15px !important;
+  }
+
+  .saved-summary {
+    padding: 22px !important;
+  }
+
+  .saved-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 650px) {
+  .saved-page {
+    padding: 26px 16px 50px !important;
+  }
+
+  .saved-page-guest {
+    padding: 45px 16px !important;
+  }
+
+  .saved-hero {
+    padding: 32px 22px !important;
+    margin-bottom: 24px !important;
+  }
+
+  .saved-hero h1 {
+    font-size: 30px !important;
+    line-height: 1.18 !important;
+  }
+
+  .saved-hero p {
+    font-size: 14px !important;
+    line-height: 1.65 !important;
+  }
+
+  .saved-summary {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+  }
+
+  .saved-summary h2 {
+    font-size: 24px !important;
+  }
+
+  .saved-summary span {
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+  }
+
+  .saved-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .saved-empty-card {
+    padding: 32px 22px !important;
+  }
+
+  .saved-empty-card h1 {
+    font-size: 30px !important;
+  }
+
+  .saved-card-content {
+    padding: 20px !important;
+  }
+
+  .saved-card-actions {
+    flex-direction: column !important;
+  }
+
+  .saved-card-actions a,
+  .saved-card-actions button {
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+  }
+}
+
+@media (max-width: 420px) {
+  .saved-hero h1 {
+    font-size: 27px !important;
+  }
+
+  .saved-hero {
+    padding: 28px 18px !important;
+  }
+
+  .saved-empty-card {
+    padding: 28px 18px !important;
+  }
+
+  .saved-card-image {
+    height: 165px !important;
+  }
+}

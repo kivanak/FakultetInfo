@@ -1,0 +1,121 @@
+/* Responsive - RecommendationPage */
+
+@media (max-width: 900px) {
+  .recommendation-page {
+    padding: 34px 22px 60px !important;
+  }
+
+  .recommendation-container {
+    width: 100% !important;
+    max-width: 760px !important;
+  }
+
+  .recommendation-hero {
+    padding: 38px 30px !important;
+    border-radius: 22px !important;
+  }
+
+  .recommendation-hero h1 {
+    font-size: 36px !important;
+  }
+
+  .recommendation-hero p {
+    font-size: 15px !important;
+  }
+
+  .recommendation-quiz-card,
+  .recommendation-results {
+    padding: 24px !important;
+    border-radius: 22px !important;
+  }
+
+  .recommendation-question-card {
+    padding: 22px !important;
+  }
+
+  .recommendation-results-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 650px) {
+  .recommendation-page {
+    padding: 26px 16px 50px !important;
+  }
+
+  .recommendation-hero {
+    padding: 32px 22px !important;
+    margin-bottom: 24px !important;
+  }
+
+  .recommendation-hero h1 {
+    font-size: 30px !important;
+    line-height: 1.18 !important;
+  }
+
+  .recommendation-hero p {
+    font-size: 14px !important;
+    line-height: 1.65 !important;
+  }
+
+  .recommendation-quiz-card,
+  .recommendation-results {
+    padding: 20px !important;
+  }
+
+  .recommendation-quiz-card h2,
+  .recommendation-results h2 {
+    font-size: 25px !important;
+  }
+
+  .recommendation-question-card {
+    padding: 20px !important;
+  }
+
+  .recommendation-question-card h3 {
+    font-size: 18px !important;
+  }
+
+  .recommendation-question-card button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .recommendation-actions {
+    flex-direction: column !important;
+  }
+
+  .recommendation-actions button {
+    width: 100%;
+  }
+
+  .recommendation-results > div:first-child {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+  }
+
+  .recommendation-results > div:first-child span {
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+  }
+
+  .recommendation-results-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (max-width: 420px) {
+  .recommendation-hero h1 {
+    font-size: 27px !important;
+  }
+
+  .recommendation-hero {
+    padding: 28px 18px !important;
+  }
+
+  .recommendation-quiz-card,
+  .recommendation-results {
+    padding: 18px !important;
+  }
+}
