@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import './FacultyDetails.css';
 
 function FacultyDetails({ faculties, user }) {
   const { id } = useParams();
@@ -362,6 +363,7 @@ function FacultyDetails({ faculties, user }) {
 
   return (
     <div
+      className="faculty-details-page"
       style={{
         minHeight: '100vh',
         background:
@@ -370,6 +372,7 @@ function FacultyDetails({ faculties, user }) {
       }}
     >
       <div
+        className="faculty-details-container"
         style={{
           maxWidth: '1180px',
           margin: '0 auto'
@@ -395,6 +398,7 @@ function FacultyDetails({ faculties, user }) {
         </Link>
 
         <section
+          className="faculty-details-card"
           style={{
             backgroundColor: 'white',
             borderRadius: '28px',
@@ -405,6 +409,7 @@ function FacultyDetails({ faculties, user }) {
           }}
         >
           <div
+            className="faculty-details-hero-image"
             style={{
               position: 'relative',
               height: '360px',
@@ -433,6 +438,7 @@ function FacultyDetails({ faculties, user }) {
             />
 
             <div
+              className="faculty-details-hero-content"
               style={{
                 position: 'absolute',
                 left: '38px',
@@ -504,8 +510,12 @@ function FacultyDetails({ faculties, user }) {
             </div>
           </div>
 
-          <div style={{ padding: '34px 38px 38px' }}>
+          <div
+            className="faculty-details-content"
+            style={{ padding: '34px 38px 38px' }}
+          >
             <div
+              className="faculty-details-actions"
               style={{
                 display: 'flex',
                 justifyContent: 'space-between',
@@ -609,6 +619,7 @@ function FacultyDetails({ faculties, user }) {
             )}
 
             <div
+              className="faculty-info-grid"
               style={{
                 display: 'grid',
                 gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',

@@ -1,0 +1,125 @@
+/* Responsive - FacultyDetails */
+
+@media (max-width: 900px) {
+  .faculty-details-page {
+    padding: 34px 22px 60px !important;
+  }
+
+  .faculty-details-container {
+    max-width: 760px !important;
+  }
+
+  .faculty-details-hero-image {
+    height: 300px !important;
+  }
+
+  .faculty-details-hero-content {
+    left: 28px !important;
+    right: 28px !important;
+    bottom: 28px !important;
+  }
+
+  .faculty-details-hero-content h1 {
+    font-size: 34px !important;
+  }
+
+  .faculty-details-content {
+    padding: 28px !important;
+  }
+
+  .faculty-details-actions {
+    align-items: flex-start !important;
+  }
+
+  .faculty-info-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (max-width: 650px) {
+  .faculty-details-page {
+    padding: 26px 16px 50px !important;
+  }
+
+  .faculty-details-card {
+    border-radius: 22px !important;
+  }
+
+  .faculty-details-hero-image {
+    height: 280px !important;
+  }
+
+  .faculty-details-hero-content {
+    left: 20px !important;
+    right: 20px !important;
+    bottom: 22px !important;
+  }
+
+  .faculty-details-hero-content h1 {
+    font-size: 28px !important;
+    line-height: 1.2 !important;
+  }
+
+  .faculty-details-hero-content p {
+    font-size: 14px !important;
+  }
+
+  .faculty-details-content {
+    padding: 22px !important;
+  }
+
+  .faculty-details-actions {
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+
+  .faculty-details-actions > div:first-child {
+    width: 100%;
+  }
+
+  .faculty-details-actions button,
+  .faculty-details-actions a {
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+  }
+
+  .faculty-details-actions > div:last-child {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .faculty-details-content section {
+    padding: 22px !important;
+  }
+
+  .faculty-details-content h2 {
+    font-size: 23px !important;
+  }
+
+  .faculty-details-content h3 {
+    font-size: 18px !important;
+  }
+}
+
+@media (max-width: 430px) {
+  .faculty-details-hero-image {
+    height: 250px !important;
+  }
+
+  .faculty-details-hero-content h1 {
+    font-size: 24px !important;
+  }
+
+  .faculty-details-hero-content span {
+    font-size: 11px !important;
+  }
+
+  .faculty-details-content {
+    padding: 18px !important;
+  }
+
+  .faculty-details-content section {
+    padding: 18px !important;
+  }
+}
