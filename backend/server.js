@@ -30,6 +30,29 @@ app.get('/faculties', async (req, res) => {
   }
 });
 
+// fakulteti po lokaciji fakulteta ili studijskog programa
+app.get('/faculties-by-location/:city', async (req, res) => {
+  try {
+    const city = req.params.city;
+
+    const result = await pool.query(
+      `SELECT DISTINCT faculties.*
+       FROM faculties
+       LEFT JOIN study_programs
+       ON study_programs.faculty_id = faculties.id
+       WHERE faculties.city = $1
+          OR study_programs.city = $1
+       ORDER BY faculties.name`,
+      [city]
+    );
+
+    res.json(result.rows);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Greška pri filtriranju fakulteta po lokaciji.');
+  }
+});
+
 // jedan fakultet po ID-u
 app.get('/faculties/:id', async (req, res) => {
   try {

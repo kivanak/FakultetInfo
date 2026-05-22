@@ -23,11 +23,14 @@ function FacultiesPage({
   const [showAddForm, setShowAddForm] = useState(false);
   const [authForm, setAuthForm] = useState(null);
 
+  const firstRowFaculties = filteredFaculties.slice(0, 2);
+  const remainingFaculties = filteredFaculties.slice(2);
+
   return (
     <main
       style={{
-        width: '92%',
-        maxWidth: '1500px',
+        width: '94%',
+        maxWidth: '1520px',
         margin: '0 auto',
         padding: '46px 0 70px'
       }}
@@ -253,8 +256,6 @@ function FacultiesPage({
         setCityFilter={setCityFilter}
       />
 
-      <MontenegroMap onCityClick={onCityClick} />
-
       <section>
         <div
           style={{
@@ -360,23 +361,49 @@ function FacultiesPage({
             </p>
           </div>
         ) : (
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
-              gap: '28px'
-            }}
-          >
-            {filteredFaculties.map((faculty) => (
-              <FacultyCard
-                key={faculty.id}
-                faculty={faculty}
-                onDelete={onDeleteFaculty}
-                onUpdate={onUpdateFaculty}
-                isAdmin={user?.role === 'admin'}
-              />
-            ))}
-          </div>
+          <>
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
+                gap: '28px',
+                alignItems: 'stretch',
+                marginBottom: '28px'
+              }}
+            >
+              {firstRowFaculties.map((faculty) => (
+                <FacultyCard
+                  key={faculty.id}
+                  faculty={faculty}
+                  onDelete={onDeleteFaculty}
+                  onUpdate={onUpdateFaculty}
+                  isAdmin={user?.role === 'admin'}
+                />
+              ))}
+
+              <MontenegroMap onCityClick={onCityClick} />
+            </div>
+
+            {remainingFaculties.length > 0 && (
+              <div
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
+                  gap: '28px'
+                }}
+              >
+                {remainingFaculties.map((faculty) => (
+                  <FacultyCard
+                    key={faculty.id}
+                    faculty={faculty}
+                    onDelete={onDeleteFaculty}
+                    onUpdate={onUpdateFaculty}
+                    isAdmin={user?.role === 'admin'}
+                  />
+                ))}
+              </div>
+            )}
+          </>
         )}
       </section>
     </main>

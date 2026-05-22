@@ -1,8 +1,10 @@
 import { useMemo } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './HomePage.css';
 
-function HomePage({ faculties }) {
+function HomePage({ faculties, onCityClick }) {
+  const navigate = useNavigate();
+
   const featuredFaculties = useMemo(() => {
     const copiedFaculties = [...faculties];
     const selectedFaculties = [];
@@ -16,50 +18,54 @@ function HomePage({ faculties }) {
 
     return selectedFaculties;
   }, [faculties]);
-const cities = [
-  {
-    id: 1,
-    name: 'Podgorica',
-    count: '11 fakulteta',
-    image: '/images/cities/podgorica.png'
-  },
-  {
-    id: 2,
-    name: 'Nikšić',
-    count: '3 fakulteta',
-    image: '/images/cities/niksic.png'
-  },
-  {
-    id: 3,
-    name: 'Cetinje',
-    count: '3 fakulteta',
-    image: '/images/cities/cetinje.png'
-  },
-  {
-    id: 4,
-    name: 'Kotor',
-    count: '2 fakulteta',
-    image: '/images/cities/kotor.png'
-  },
-  {
-    id: 5,
-    name: 'Bar',
-    count: 'studijski programi',
-    image: '/images/cities/bar.png'
-  },
-  {
-    id: 6,
-    name: 'Bijelo Polje',
-    count: 'studijski programi',
-    image: '/images/cities/bijelo-polje.png'
-  },
-  {
-    id: 7,
-    name: 'Herceg Novi',
-    count: 'studijski programi',
-    image: '/images/cities/herceg-novi.png'
-  }
-];
+
+  const handleCityCardClick = (cityName) => {
+    if (onCityClick) {
+      onCityClick(cityName);
+    }
+
+    navigate('/faculties');
+  };
+
+  const cities = [
+    {
+      id: 1,
+      name: 'Podgorica',
+      count: '11 fakulteta',
+      image: '/images/cities/podgorica.png'
+    },
+    {
+      id: 2,
+      name: 'Nikšić',
+      count: '3 fakulteta',
+      image: '/images/cities/niksic.png'
+    },
+    {
+      id: 3,
+      name: 'Cetinje',
+      count: '3 fakulteta',
+      image: '/images/cities/cetinje.png'
+    },
+    {
+      id: 4,
+      name: 'Kotor',
+      count: '2 fakulteta',
+      image: '/images/cities/kotor.png'
+    },
+    {
+      id: 5,
+      name: 'Bar',
+      count: 'studijski programi',
+      image: '/images/cities/bar.png'
+    },
+    {
+      id: 6,
+      name: 'Bijelo Polje',
+      count: 'studijski programi',
+      image: '/images/cities/bijelo-polje.png'
+    }
+  ];
+
   const news = [
     {
       id: 1,
@@ -150,24 +156,24 @@ const cities = [
 
           <div className="home-hero-right">
             <div className="home-hero-image-card">
+              <img
+                src="/images/hero/rektorat.jpg"
+                alt="Univerzitet Crne Gore"
+              />
 
-   <img
-   src="/images/hero/rektorat.jpg"
-  alt="Univerzitet Crne Gore"
-/>
               <div className="home-hero-floating-card">
                 <div className="home-hero-floating-icon">
                   🎓
                 </div>
 
                 <div>
-                <h3>
-  Istraži 19 fakulteta UCG
-</h3>
+                  <h3>
+                    Istraži 19 fakulteta UCG
+                  </h3>
 
-<p>
-  Programi, gradovi, recenzije i preporuke na jednom mjestu.
-</p>
+                  <p>
+                    Programi, gradovi, recenzije i preporuke na jednom mjestu.
+                  </p>
                 </div>
               </div>
             </div>
@@ -232,7 +238,7 @@ const cities = [
               </h2>
 
               <span>
-                Istraži gdje se nalaze fakulteti Univerziteta Crne Gore.
+                Istraži gdje se nalaze fakulteti i studijski programi Univerziteta Crne Gore.
               </span>
             </div>
 
@@ -242,32 +248,39 @@ const cities = [
           </div>
 
           <div className="cities-grid">
-  {cities.map((city) => (
-    <Link
-      key={city.id}
-      to="/faculties"
-      className="city-card"
-    >
-      <div className="city-image-box">
-        <img
-          src={city.image}
-          alt={city.name}
-          className="city-image"
-        />
-      </div>
+            {cities.map((city) => (
+              <button
+                key={city.id}
+                type="button"
+                onClick={() => handleCityCardClick(city.name)}
+                className="city-card"
+                style={{
+                  border: 'none',
+                  textAlign: 'inherit',
+                  cursor: 'pointer',
+                  fontFamily: 'inherit'
+                }}
+              >
+                <div className="city-image-box">
+                  <img
+                    src={city.image}
+                    alt={city.name}
+                    className="city-image"
+                  />
+                </div>
 
-      <div className="city-card-content">
-        <h3>
-          {city.name}
-        </h3>
+                <div className="city-card-content">
+                  <h3>
+                    {city.name}
+                  </h3>
 
-        <p>
-          {city.count} 
-        </p>
-      </div>
-    </Link>
-  ))}
-</div>
+                  <p>
+                    {city.count}
+                  </p>
+                </div>
+              </button>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -490,52 +503,39 @@ const cities = [
             </Link>
           </div>
 
-         <div className="footer-column">
-  <h4>
-    Lokacije
-  </h4>
+          <div className="footer-column">
+            <h4>
+              Lokacije
+            </h4>
 
-  <p>Podgorica</p>
-  <p>Nikšić</p>
-  <p>Cetinje</p>
-  <p>Kotor</p>
-  <p>Bar</p>
-  <p>Bijelo Polje</p>
-  <p>Herceg Novi</p>
-</div>
+            <p>Podgorica</p>
+            <p>Nikšić</p>
+            <p>Cetinje</p>
+            <p>Kotor</p>
+            <p>Bar</p>
+            <p>Bijelo Polje</p>
+          </div>
 
           <div className="footer-column">
             <h4>
-              Kontakt
+              Univerzitet
             </h4>
-      <div className="footer-column">
-  <h4>
-    Univerzitet
-  </h4>
 
-  <a
-    href="https://www.ucg.ac.me"
-    target="_blank"
-    rel="noreferrer"
-  >
-    Zvanični sajt UCG
-  </a>
+            <a
+              href="https://www.ucg.ac.me"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Zvanični sajt UCG
+            </a>
 
-  <a
-    href="https://www.ucg.ac.me/studije"
-    target="_blank"
-    rel="noreferrer"
-  >
-    Studije
-  </a>
-
-  <p>
-    Podgorica, Crna Gora
-  </p>
-</div>
-            <p>
-              Univerzitet Crne Gore
-            </p>
+            <a
+              href="https://www.ucg.ac.me/studije"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Studije
+            </a>
 
             <p>
               Podgorica, Crna Gora

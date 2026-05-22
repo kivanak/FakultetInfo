@@ -14,6 +14,7 @@ function App() {
   const [search, setSearch] = useState('');
   const [user, setUser] = useState(null);
   const [cityFilter, setCityFilter] = useState('');
+  const [locationFaculties, setLocationFaculties] = useState([]);
 
   useEffect(() => {
     fetch('http://localhost:5000/faculties')
@@ -28,19 +29,32 @@ function App() {
     }
   }, []);
 
-  const filteredFaculties = faculties.filter((faculty) => {
-    const facultyName = faculty.name || '';
-    const facultyDescription = faculty.description || '';
+  useEffect(() => {
+    if (!cityFilter) {
+      setLocationFaculties([]);
+      return;
+    }
 
-    const matchesSearch =
-      facultyName.toLowerCase().includes(search.toLowerCase()) ||
-      facultyDescription.toLowerCase().includes(search.toLowerCase());
+    fetch(`http://localhost:5000/faculties-by-location/${cityFilter}`)
+      .then((res) => res.json())
+      .then((data) => setLocationFaculties(data))
+      .catch((err) => console.error(err));
+  }, [cityFilter]);
 
-    const matchesCity =
-      cityFilter === '' || faculty.city === cityFilter;
+  const filteredFaculties = (cityFilter ? locationFaculties : faculties).filter(
+    (faculty) => {
+      const facultyName = faculty.name || '';
+      const facultyDescription = faculty.description || '';
+      const facultyShortDescription = faculty.short_description || '';
 
-    return matchesSearch && matchesCity;
-  });
+      const matchesSearch =
+        facultyName.toLowerCase().includes(search.toLowerCase()) ||
+        facultyDescription.toLowerCase().includes(search.toLowerCase()) ||
+        facultyShortDescription.toLowerCase().includes(search.toLowerCase());
+
+      return matchesSearch;
+    }
+  );
 
   const handleFacultyAdded = (newFaculty) => {
     setFaculties([...faculties, newFaculty]);
@@ -71,6 +85,7 @@ function App() {
   };
 
   const handleCityClick = (cityName) => {
+    setSearch('');
     setCityFilter(cityName);
   };
 
@@ -88,7 +103,10 @@ function App() {
         <Route
           path="/"
           element={
-            <HomePage faculties={faculties} />
+            <HomePage
+              faculties={faculties}
+              onCityClick={handleCityClick}
+            />
           }
         />
 
