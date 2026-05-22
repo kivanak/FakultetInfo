@@ -719,7 +719,7 @@ function RecommendationPage({ user, faculties }) {
                     }}
                   >
                     <img
-                      src={faculty.cover_image || '/images/faculties/default.jpg'}
+                      src={faculty.cover_image || '/images/faculties/ucg.png'}
                       alt={faculty.name}
                       style={{
                         width: '100%',

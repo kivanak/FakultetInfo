@@ -359,7 +359,7 @@ const cities = [
             {featuredFaculties.map((faculty) => (
               <div key={faculty.id} className="home-faculty-card">
                 <img
-                  src={faculty.cover_image || '/images/faculties/default.jpg'}
+                  src={faculty.cover_image || '/images/faculties/ucg.png'}
                   alt={faculty.name}
                   loading="lazy"
                 />
