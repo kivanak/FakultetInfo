@@ -139,7 +139,7 @@ function FilterPanel({ search, setSearch, cityFilter, setCityFilter }) {
           <option value="Kotor">Kotor</option>
           <option value="Bar">Bar</option>
           <option value="Bijelo Polje">Bijelo Polje</option>
-          <option value="Herceg Novi">Herceg Novi</option>
+          
         </select>
       </div>
     </div>
