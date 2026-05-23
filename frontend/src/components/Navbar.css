@@ -105,10 +105,34 @@
   white-space: nowrap;
 }
 
+.hamburger-button {
+  display: none;
+  background-color: #003B71;
+  border: 1px solid #003B71;
+  width: 46px;
+  height: 42px;
+  border-radius: 12px;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 5px;
+  box-shadow: 0 8px 20px rgba(0, 59, 113, 0.18);
+}
+
+.hamburger-button span {
+  width: 22px;
+  height: 2px;
+  background-color: white;
+  border-radius: 999px;
+  display: block;
+}
+
 /* Tablet */
 @media (max-width: 1100px) {
   .navbar {
     height: auto !important;
+    min-height: 78px !important;
     padding: 14px 24px !important;
     gap: 18px;
   }
@@ -129,49 +153,44 @@
   }
 }
 
-/* Manji tablet */
-@media (max-width: 850px) {
+/* Telefon - hamburger meni */
+@media (max-width: 760px) {
   .navbar {
-    flex-direction: column;
-    align-items: stretch !important;
-    padding: 16px 20px !important;
-  }
-
-  .navbar-brand {
-    justify-content: center;
-  }
-
-  .navbar-links {
-    justify-content: center !important;
-    width: 100%;
-  }
-
-  .nav-link,
-  .nav-auth-button,
-  .nav-auth-button-filled,
-  .nav-user-badge {
-    flex: 1 1 auto;
-  }
-}
-
-/* Telefon */
-@media (max-width: 600px) {
-  .navbar {
-    padding: 14px 14px !important;
+    padding: 14px 18px !important;
+    align-items: center !important;
+    position: sticky;
   }
 
   .navbar-brand h2 {
-    font-size: 20px !important;
+    font-size: 21px !important;
   }
 
   .navbar-brand p {
     font-size: 11px !important;
   }
 
+  .hamburger-button {
+    display: flex;
+  }
+
   .navbar-links {
+    position: absolute;
+    top: 78px;
+    left: 14px;
+    right: 14px;
+    display: none !important;
+    background-color: white;
+    border: 1px solid #dbeafe;
+    border-radius: 20px;
+    padding: 14px;
+    box-shadow: 0 18px 42px rgba(15, 23, 42, 0.16);
+    z-index: 200;
+  }
+
+  .navbar-links.open {
     display: grid !important;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 9px !important;
+    grid-template-columns: 1fr;
+    gap: 10px !important;
   }
 
   .nav-link,
@@ -179,24 +198,43 @@
   .nav-auth-button-filled,
   .nav-user-badge {
     width: 100%;
-    min-height: 42px;
-    padding: 9px 10px;
-    font-size: 13px;
-    border-radius: 10px;
+    min-height: 44px;
+    padding: 11px 12px;
+    font-size: 14px;
+    border-radius: 12px;
   }
 
   .nav-user-badge {
-    grid-column: span 2;
+    text-align: center;
   }
 }
 
-/* Baš mali telefoni */
-@media (max-width: 390px) {
-  .navbar-links {
-    grid-template-columns: 1fr;
+/* Mali telefoni */
+@media (max-width: 420px) {
+  .navbar {
+    padding: 12px 14px !important;
   }
 
-  .nav-user-badge {
-    grid-column: span 1;
+  .navbar-brand {
+    gap: 9px !important;
+  }
+
+  .navbar-brand h2 {
+    font-size: 19px !important;
+  }
+
+  .navbar-brand p {
+    font-size: 10px !important;
+  }
+
+  .hamburger-button {
+    width: 42px;
+    height: 40px;
+  }
+
+  .navbar-links {
+    top: 72px;
+    left: 10px;
+    right: 10px;
   }
 }

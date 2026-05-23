@@ -1,13 +1,25 @@
+import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import './Navbar.css';
 
 function Navbar({ user, onLogout }) {
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const closeMenu = () => {
+    setMenuOpen(false);
+  };
+
+  const handleLogoutClick = () => {
+    onLogout();
+    closeMenu();
+  };
+
   return (
     <nav
       className="navbar"
       style={{
         backgroundColor: 'white',
-        height: '78px',
+        minHeight: '78px',
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
@@ -72,8 +84,19 @@ function Navbar({ user, onLogout }) {
         </div>
       </div>
 
+      <button
+        type="button"
+        className="hamburger-button"
+        onClick={() => setMenuOpen(!menuOpen)}
+        aria-label="Otvori meni"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
       <div
-        className="navbar-links"
+        className={menuOpen ? 'navbar-links open' : 'navbar-links'}
         style={{
           display: 'flex',
           alignItems: 'center',
@@ -82,6 +105,7 @@ function Navbar({ user, onLogout }) {
       >
         <NavLink
           to="/"
+          onClick={closeMenu}
           className={({ isActive }) =>
             isActive ? 'nav-link active' : 'nav-link'
           }
@@ -91,6 +115,7 @@ function Navbar({ user, onLogout }) {
 
         <NavLink
           to="/faculties"
+          onClick={closeMenu}
           className={({ isActive }) =>
             isActive ? 'nav-link active' : 'nav-link'
           }
@@ -100,6 +125,7 @@ function Navbar({ user, onLogout }) {
 
         <NavLink
           to="/recommendation"
+          onClick={closeMenu}
           className={({ isActive }) =>
             isActive ? 'nav-link active' : 'nav-link'
           }
@@ -109,6 +135,7 @@ function Navbar({ user, onLogout }) {
 
         <NavLink
           to="/saved"
+          onClick={closeMenu}
           title="Sačuvani fakulteti"
           className={({ isActive }) =>
             isActive ? 'nav-link active' : 'nav-link'
@@ -124,7 +151,7 @@ function Navbar({ user, onLogout }) {
             </div>
 
             <button
-              onClick={onLogout}
+              onClick={handleLogoutClick}
               className="nav-auth-button-filled"
             >
               Odjava
@@ -134,6 +161,7 @@ function Navbar({ user, onLogout }) {
           <>
             <NavLink
               to="/faculties"
+              onClick={closeMenu}
               className="nav-auth-button"
             >
               Prijava
@@ -141,6 +169,7 @@ function Navbar({ user, onLogout }) {
 
             <NavLink
               to="/faculties"
+              onClick={closeMenu}
               className="nav-auth-button-filled"
             >
               Registracija
