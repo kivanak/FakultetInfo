@@ -71,7 +71,8 @@ function HomePage({ faculties, onCityClick }) {
       id: 1,
       title: 'Informacije o upisu',
       text: 'Pratite najvažnije informacije o upisu, rokovima, dokumentaciji i studijskim programima Univerziteta Crne Gore.',
-      tag: 'Upis'
+      tag: 'Upis',
+      link: 'https://upis.ucg.ac.me/'
     },
     {
       id: 2,
@@ -423,21 +424,42 @@ function HomePage({ faculties, onCityClick }) {
           </div>
 
           <div className="news-grid">
-            {news.map((item) => (
-              <div key={item.id} className="news-card">
-                <span className="news-tag">
-                  {item.tag}
-                </span>
+           {news.map((item) => (
+  <div key={item.id} className="news-card">
+    <span className="news-tag">
+      {item.tag}
+    </span>
 
-                <h3>
-                  {item.title}
-                </h3>
+    <h3>
+      {item.title}
+    </h3>
 
-                <p>
-                  {item.text}
-                </p>
-              </div>
-            ))}
+    <p>
+      {item.text}
+    </p>
+
+    {item.link && (
+      <a
+        href={item.link}
+        target="_blank"
+        rel="noopener noreferrer"
+        style={{
+          display: 'inline-block',
+          marginTop: '18px',
+          backgroundColor: '#003B71',
+          color: 'white',
+          padding: '10px 14px',
+          borderRadius: '10px',
+          textDecoration: 'none',
+          fontWeight: 'bold',
+          fontSize: '14px'
+        }}
+      >
+        Zvanične informacije o upisu
+      </a>
+    )}
+  </div>
+))}
           </div>
         </div>
       </section>
