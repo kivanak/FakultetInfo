@@ -16,16 +16,19 @@ app.use(express.json());
 
 // test ruta
 app.get('/', (req, res) => {
-  res.send('Server radi!');
+  res.send('Server radi !');
 });
 
 // svi fakulteti
 app.get('/faculties', async (req, res) => {
+
   try {
     const result = await pool.query('SELECT * FROM faculties');
+  
     res.json(result.rows);
   } catch (err) {
-    console.error(err.message);
+    console.error('GRESKA U /faculties:');
+    console.error(err);
     res.status(500).send('Greška.');
   }
 });

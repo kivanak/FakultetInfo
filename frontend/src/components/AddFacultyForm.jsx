@@ -1,5 +1,8 @@
 import { useState } from 'react';
 
+const API_URL = import.meta.env.VITE_API_URL;
+
+
 function AddFacultyForm({ onFacultyAdded }) {
   const [formData, setFormData] = useState({
     name: '',
@@ -39,7 +42,7 @@ function AddFacultyForm({ onFacultyAdded }) {
     setMessage('');
 
     try {
-      const response = await fetch('http://localhost:5000/faculties', {
+     const response = await fetch(`${API_URL}/faculties`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom';
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 function FacultyCard({ faculty, onDelete, onUpdate, isAdmin }) {
   const handleDelete = async () => {
     const confirmed = window.confirm(
@@ -10,7 +12,7 @@ function FacultyCard({ faculty, onDelete, onUpdate, isAdmin }) {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/faculties/${faculty.id}`,
+        `${API_URL}/faculties/${faculty.id}`,
         {
           method: 'DELETE'
         }
@@ -39,7 +41,7 @@ function FacultyCard({ faculty, onDelete, onUpdate, isAdmin }) {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/faculties/${faculty.id}`,
+        `${API_URL}/faculties/${faculty.id}`,
         {
           method: 'PUT',
           headers: {

@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import './FacultyDetails.css';
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 function FacultyDetails({ faculties, user }) {
   const { id } = useParams();
 
@@ -22,7 +24,7 @@ function FacultyDetails({ faculties, user }) {
   const faculty = faculties.find((f) => f.id === Number(id));
 
   useEffect(() => {
-    fetch(`http://localhost:5000/faculties/${id}/programs`)
+   fetch(`${API_URL}/faculties/${id}/programs`)
       .then((res) => res.json())
       .then((data) => {
         setPrograms(data);
@@ -35,7 +37,7 @@ function FacultyDetails({ faculties, user }) {
   }, [id]);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/faculties/${id}/reviews`)
+    fetch(`${API_URL}/faculties/${id}/reviews`)
       .then((res) => res.json())
       .then((data) => {
         setReviews(data);
@@ -50,7 +52,7 @@ function FacultyDetails({ faculties, user }) {
   useEffect(() => {
     if (!user) return;
 
-    fetch(`http://localhost:5000/users/${user.id}/saved-faculties`)
+    fetch(`${API_URL}/users/${user.id}/saved-faculties`)
       .then((res) => res.json())
       .then((data) => {
         const alreadySaved = data.some(
@@ -100,7 +102,7 @@ function FacultyDetails({ faculties, user }) {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/faculties/${id}/reviews`,
+        `${API_URL}/faculties/${id}/reviews`,
         {
           method: 'POST',
           headers: {
@@ -127,7 +129,7 @@ function FacultyDetails({ faculties, user }) {
       setReviewMessage('Recenzija je uspješno dodata.');
 
       const reviewsResponse = await fetch(
-        `http://localhost:5000/faculties/${id}/reviews`
+        `${API_URL}/faculties/${id}/reviews`,
       );
 
       const reviewsData = await reviewsResponse.json();
@@ -147,7 +149,7 @@ function FacultyDetails({ faculties, user }) {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/reviews/${reviewId}`,
+        `${API_URL}/reviews/${reviewId}`,
         {
           method: 'DELETE'
         }
@@ -178,7 +180,7 @@ function FacultyDetails({ faculties, user }) {
     try {
       if (isSaved) {
         const response = await fetch(
-          `http://localhost:5000/saved-faculties/${user.id}/${id}`,
+          `${API_URL}/saved-faculties/${user.id}/${id}`,
           {
             method: 'DELETE'
           }
@@ -192,7 +194,7 @@ function FacultyDetails({ faculties, user }) {
         setIsSaved(false);
         setSaveMessage('Fakultet je uklonjen iz sačuvanih.');
       } else {
-        const response = await fetch('http://localhost:5000/saved-faculties', {
+        const response = await fetch(`${API_URL}/saved-faculties`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
