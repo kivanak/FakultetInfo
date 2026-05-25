@@ -11,6 +11,8 @@ import FacultiesPage from './pages/FacultiesPage';
 import RecommendationPage from './pages/RecommendationPage';
 import SavedFacultiesPage from './pages/SavedFacultiesPage';
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 function App() {
   const [faculties, setFaculties] = useState([]);
   const [search, setSearch] = useState('');
@@ -20,7 +22,7 @@ function App() {
   const [authForm, setAuthForm] = useState('login');
 
   useEffect(() => {
-    fetch('http://localhost:5000/faculties')
+    fetch(`${API_URL}/faculties`)
       .then((res) => res.json())
       .then((data) => setFaculties(data))
       .catch((err) => console.error(err));
@@ -38,7 +40,7 @@ function App() {
       return;
     }
 
-    fetch(`http://localhost:5000/faculties-by-location/${cityFilter}`)
+    fetch(`${API_URL}/faculties-by-location/${cityFilter}`)
       .then((res) => res.json())
       .then((data) => setLocationFaculties(data))
       .catch((err) => console.error(err));
