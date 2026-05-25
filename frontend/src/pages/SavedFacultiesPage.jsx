@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './SavedFacultiesPage.css';
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 function SavedFacultiesPage({ user }) {
   const [savedFaculties, setSavedFaculties] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -12,7 +14,7 @@ function SavedFacultiesPage({ user }) {
       return;
     }
 
-    fetch(`http://localhost:5000/users/${user.id}/saved-faculties`)
+    fetch(`${API_URL}/users/${user.id}/saved-faculties`)
       .then((res) => res.json())
       .then((data) => {
         setSavedFaculties(data);
@@ -33,7 +35,7 @@ function SavedFacultiesPage({ user }) {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/saved-faculties/${user.id}/${facultyId}`,
+        `${API_URL}/saved-faculties/${user.id}/${facultyId}`,
         {
           method: 'DELETE'
         }
