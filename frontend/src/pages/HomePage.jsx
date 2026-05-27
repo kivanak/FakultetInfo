@@ -201,25 +201,25 @@ function HomePage({ faculties, onCityClick }) {
           <div className="features-grid">
             <div className="feature-card">
               <div className="feature-icon">🔎</div>
-              <h3>01 Pametna pretraga</h3>
+              <h3> Pametna pretraga</h3>
               <p>Brzo pronađi fakultete po nazivu, gradu i oblastima koje te zanimaju.</p>
             </div>
 
             <div className="feature-card">
               <div className="feature-icon">🎯</div>
-              <h3>02 Preporuke za tebe</h3>
+              <h3> Preporuke za tebe</h3>
               <p>Odgovori na pitanja i dobij prijedlog fakulteta koji odgovara tvojim interesovanjima.</p>
             </div>
 
             <div className="feature-card">
               <div className="feature-icon">⭐</div>
-              <h3>03 Recenzije studenata</h3>
+              <h3>Recenzije studenata</h3>
               <p>Pročitaj iskustva korisnika i ocjene koje mogu pomoći pri izboru fakulteta.</p>
             </div>
 
             <div className="feature-card">
               <div className="feature-icon">☆</div>
-              <h3>04 Sačuvani fakulteti</h3>
+              <h3>Sačuvani fakulteti</h3>
               <p>Sačuvaj fakultete koji ti se sviđaju i vrati im se kasnije.</p>
             </div>
           </div>
@@ -424,42 +424,42 @@ function HomePage({ faculties, onCityClick }) {
           </div>
 
           <div className="news-grid">
-           {news.map((item) => (
-  <div key={item.id} className="news-card">
-    <span className="news-tag">
-      {item.tag}
-    </span>
+            {news.map((item) => (
+              <div key={item.id} className="news-card">
+                <span className="news-tag">
+                  {item.tag}
+                </span>
 
-    <h3>
-      {item.title}
-    </h3>
+                <h3>
+                  {item.title}
+                </h3>
 
-    <p>
-      {item.text}
-    </p>
+                <p>
+                  {item.text}
+                </p>
 
-    {item.link && (
-      <a
-        href={item.link}
-        target="_blank"
-        rel="noopener noreferrer"
-        style={{
-          display: 'inline-block',
-          marginTop: '18px',
-          backgroundColor: '#003B71',
-          color: 'white',
-          padding: '10px 14px',
-          borderRadius: '10px',
-          textDecoration: 'none',
-          fontWeight: 'bold',
-          fontSize: '14px'
-        }}
-      >
-        Zvanične informacije o upisu
-      </a>
-    )}
-  </div>
-))}
+                {item.link && (
+                  <a
+                    href={item.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      display: 'inline-block',
+                      marginTop: '18px',
+                      backgroundColor: '#003B71',
+                      color: 'white',
+                      padding: '10px 14px',
+                      borderRadius: '10px',
+                      textDecoration: 'none',
+                      fontWeight: 'bold',
+                      fontSize: '14px'
+                    }}
+                  >
+                    Zvanične informacije o upisu
+                  </a>
+                )}
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -500,6 +500,18 @@ function HomePage({ faculties, onCityClick }) {
             <p>
               Vodič kroz fakultete, gradove i studijske programe
               Univerziteta Crne Gore.
+            </p>
+
+            <p
+              style={{
+                marginTop: '14px',
+                fontSize: '13px',
+                lineHeight: 1.7,
+                color: '#cbd5e1'
+              }}
+            >
+              Informacije na sajtu su informativnog karaktera i služe kao pomoć
+              pri istraživanju fakulteta i studijskih programa.
             </p>
           </div>
 
@@ -559,6 +571,14 @@ function HomePage({ faculties, onCityClick }) {
               Studije
             </a>
 
+            <a
+              href="https://upis.ucg.ac.me/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Zvanične informacije o upisu
+            </a>
+
             <p>
               Podgorica, Crna Gora
             </p>
@@ -570,7 +590,22 @@ function HomePage({ faculties, onCityClick }) {
         </div>
 
         <div className="footer-bottom">
-          © 2026 FakultetInfo. Sva prava zadržana.
+          <p style={{ margin: 0 }}>
+            © 2026 FakultetInfo. Sva prava zadržana.
+          </p>
+
+          <p
+            style={{
+              margin: '10px auto 0',
+              maxWidth: '850px',
+              color: '#cbd5e1',
+              fontSize: '13px',
+              lineHeight: 1.6
+            }}
+          >
+            Za zvanične podatke o upisu, rokovima, konkursima, dokumentaciji i
+            studijskim programima provjerite zvanične stranice Univerziteta Crne Gore.
+          </p>
         </div>
       </footer>
     </div>
