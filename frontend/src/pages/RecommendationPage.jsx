@@ -25,6 +25,7 @@ function RecommendationPage({ user, faculties }) {
   ];
 
   const cities = [
+    'Svejedno',
     'Podgorica',
     'Nikšić',
     'Cetinje',
@@ -111,7 +112,8 @@ function RecommendationPage({ user, faculties }) {
         (text.includes('umjet') ||
           text.includes('likovn') ||
           text.includes('drams') ||
-          text.includes('muzi'))) ||
+          text.includes('muzi') ||
+          text.includes('arhitekt'))) ||
       (answers.area === 'Sport' &&
         (text.includes('sport') ||
           text.includes('fizičko'))) ||
@@ -132,7 +134,9 @@ function RecommendationPage({ user, faculties }) {
           text.includes('bilj')));
 
     const matchesCity =
-      !answers.city || faculty.city === answers.city;
+      !answers.city ||
+      answers.city === 'Nije mi presudno' ||
+      faculty.city === answers.city;
 
     const matchesStyle =
       !answers.style ||
@@ -326,8 +330,8 @@ function RecommendationPage({ user, faculties }) {
                 lineHeight: 1.75
               }}
             >
-              Odgovori na nekoliko kratkih pitanja i dobićeš preporuke fakulteta
-              koje se najviše poklapaju sa tvojim izborima.
+              Odgovori na nekoliko kratkih pitanja i dobićeš prijedloge
+              fakulteta koji mogu odgovarati tvojim interesovanjima.
             </p>
           </div>
         </section>
@@ -397,8 +401,8 @@ function RecommendationPage({ user, faculties }) {
                 lineHeight: 1.7
               }}
             >
-              Ne moraš izabrati sve opcije. Što više odgovora odabereš, preporuka
-              će biti preciznija.
+              Ne moraš izabrati sve opcije. Što više odgovora odabereš,
+              prijedlozi će biti precizniji.
             </p>
           </div>
 
@@ -579,7 +583,7 @@ function RecommendationPage({ user, faculties }) {
                 boxShadow: '0 8px 20px rgba(0, 59, 113, 0.20)'
               }}
             >
-              Prikaži preporuke
+              Prikaži prijedloge
             </button>
 
             <button
@@ -642,7 +646,7 @@ function RecommendationPage({ user, faculties }) {
                     fontWeight: '800'
                   }}
                 >
-                  Preporučeni fakulteti
+                  Fakulteti koje vrijedi pogledati
                 </h2>
               </div>
 
@@ -658,6 +662,22 @@ function RecommendationPage({ user, faculties }) {
               >
                 Pronađeno: {recommendedFaculties.length}
               </span>
+            </div>
+
+            <div
+              style={{
+                backgroundColor: '#f8fbff',
+                border: '1px solid #e5e7eb',
+                borderRadius: '18px',
+                padding: '18px 20px',
+                marginBottom: '24px',
+                color: '#64748b',
+                lineHeight: 1.7
+              }}
+            >
+              Ovo su prijedlozi na osnovu odabranih interesovanja. Prije
+              konačne odluke pogledaj detalje fakulteta i zvanične informacije
+              o upisu.
             </div>
 
             {recommendedFaculties.length === 0 ? (
@@ -694,7 +714,7 @@ function RecommendationPage({ user, faculties }) {
                     fontSize: '22px'
                   }}
                 >
-                  Nema pronađenih preporuka
+                  Nijesmo pronašli tačno poklapanje
                 </h3>
 
                 <p
@@ -702,11 +722,13 @@ function RecommendationPage({ user, faculties }) {
                     margin: '0 auto',
                     color: '#64748b',
                     lineHeight: 1.7,
-                    maxWidth: '520px'
+                    maxWidth: '540px'
                   }}
                 >
-                  Pokušaj da izabereš širu oblast, drugi grad ili resetuj kviz
-                  pa ponovo odaberi odgovore.
+                  Pokušaj da ukloniš grad kao uslov, izabereš opciju “Nije mi
+                  presudno” ili odabereš širu oblast. Neki fakulteti mogu
+                  odgovarati tvojim interesovanjima iako nijesu u izabranom
+                  gradu.
                 </p>
               </div>
             ) : (
