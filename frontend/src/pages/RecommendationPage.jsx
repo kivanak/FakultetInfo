@@ -76,138 +76,187 @@ function RecommendationPage({ user, faculties }) {
     setShowResults(false);
   };
 
-  const recommendedFaculties = faculties.filter((faculty) => {
-    const text = `
-      ${faculty.name || ''}
-      ${faculty.description || ''}
-      ${faculty.short_description || ''}
-      ${faculty.city || ''}
-    `.toLowerCase();
+   const matchingFaculties = faculties.map((faculty) => {
+  const text = `
+    ${faculty.name || ''}
+    ${faculty.description || ''}
+    ${faculty.short_description || ''}
+    ${faculty.city || ''}
+  `.toLowerCase();
 
-    const area = answers.area.toLowerCase();
-    const style = answers.style.toLowerCase();
-    const goal = answers.goal.toLowerCase();
+  const area = answers.area.toLowerCase();
+  const style = answers.style.toLowerCase();
+  const goal = answers.goal.toLowerCase();
 
-    const matchesArea =
-      !answers.area ||
-      text.includes(area) ||
-      (answers.area === 'Tehnologija' &&
-        (text.includes('računar') ||
-          text.includes('tehnolog') ||
-          text.includes('elektro') ||
-          text.includes('informat'))) ||
-      (answers.area === 'Medicina' &&
-        (text.includes('medicin') ||
-          text.includes('zdrav') ||
-          text.includes('fizioter'))) ||
-      (answers.area === 'Ekonomija' &&
-        (text.includes('ekonom') ||
-          text.includes('menadž') ||
-          text.includes('biznis'))) ||
-      (answers.area === 'Pravo' &&
-        (text.includes('prav') ||
-          text.includes('polit') ||
-          text.includes('bezbjed'))) ||
-      (answers.area === 'Umjetnost' &&
-        (text.includes('umjet') ||
-          text.includes('likovn') ||
-          text.includes('drams') ||
-          text.includes('muzi') ||
-          text.includes('arhitekt'))) ||
-      (answers.area === 'Sport' &&
-        (text.includes('sport') ||
-          text.includes('fizičko'))) ||
-      (answers.area === 'Turizam' &&
-        (text.includes('turiz') ||
-          text.includes('hotel') ||
-          text.includes('pomor'))) ||
-      (answers.area === 'Prirodne nauke' &&
-        (text.includes('matemat') ||
-          text.includes('fizik') ||
-          text.includes('biolog') ||
-          text.includes('hemij') ||
-          text.includes('prirod'))) ||
-      (answers.area === 'Poljoprivreda' &&
-        (text.includes('poljopr') ||
-          text.includes('bioteh') ||
-          text.includes('voćar') ||
-          text.includes('bilj')));
+  const matchesArea =
+    !answers.area ||
+    text.includes(area) ||
+    (answers.area === 'Tehnologija' &&
+      (text.includes('računar') ||
+        text.includes('tehnolog') ||
+        text.includes('elektro') ||
+        text.includes('informat'))) ||
+    (answers.area === 'Medicina' &&
+      (text.includes('medicin') ||
+        text.includes('zdrav') ||
+        text.includes('fizioter') ||
+        text.includes('farmac') ||
+        text.includes('stomat'))) ||
+    (answers.area === 'Ekonomija' &&
+      (text.includes('ekonom') ||
+        text.includes('menadž') ||
+        text.includes('biznis'))) ||
+    (answers.area === 'Pravo' &&
+      (text.includes('prav') ||
+        text.includes('polit') ||
+        text.includes('bezbjed'))) ||
+    (answers.area === 'Umjetnost' &&
+      (text.includes('umjet') ||
+        text.includes('likovn') ||
+        text.includes('drams') ||
+        text.includes('muzi') ||
+        text.includes('arhitekt'))) ||
+    (answers.area === 'Sport' &&
+      (text.includes('sport') ||
+        text.includes('fizičko'))) ||
+    (answers.area === 'Turizam' &&
+      (text.includes('turiz') ||
+        text.includes('hotel') ||
+        text.includes('pomor'))) ||
+    (answers.area === 'Prirodne nauke' &&
+      (text.includes('matemat') ||
+        text.includes('fizik') ||
+        text.includes('biolog') ||
+        text.includes('hemij') ||
+        text.includes('prirod'))) ||
+    (answers.area === 'Poljoprivreda' &&
+      (text.includes('poljopr') ||
+        text.includes('bioteh') ||
+        text.includes('voćar') ||
+        text.includes('bilj')));
 
-    const matchesCity =
-      !answers.city ||
-      answers.city === 'Nije mi presudno' ||
-      faculty.city === answers.city;
+  const matchesCity =
+    !answers.city ||
+    answers.city === 'Nije mi presudno' ||
+    faculty.city === answers.city;
 
-    const matchesStyle =
-      !answers.style ||
-      text.includes(style) ||
-      (answers.style === 'Praktičan rad' &&
-        (text.includes('prakti') ||
-          text.includes('primijen'))) ||
-      (answers.style === 'Rad sa ljudima' &&
-        (text.includes('medicin') ||
-          text.includes('prav') ||
-          text.includes('učitelj') ||
-          text.includes('pedagog') ||
-          text.includes('socijal'))) ||
-      (answers.style === 'Kreativan rad' &&
-        (text.includes('umjet') ||
-          text.includes('arhitekt') ||
-          text.includes('dizajn') ||
-          text.includes('film') ||
-          text.includes('drama'))) ||
-      (answers.style === 'Istraživanje' &&
-        (text.includes('nauk') ||
-          text.includes('istraž') ||
-          text.includes('biolog') ||
-          text.includes('fizik') ||
-          text.includes('hemij'))) ||
-      (answers.style === 'Analitika i brojevi' &&
-        (text.includes('matemat') ||
-          text.includes('ekonom') ||
-          text.includes('računar') ||
-          text.includes('inženjer'))) ||
-      (answers.style === 'Organizacija i menadžment' &&
-        (text.includes('menadž') ||
-          text.includes('organiz') ||
-          text.includes('ekonom') ||
-          text.includes('turiz')));
+  const matchesStyle =
+    !answers.style ||
+    text.includes(style) ||
+    (answers.style === 'Praktičan rad' &&
+      (text.includes('prakti') ||
+        text.includes('primijen') ||
+        text.includes('klini'))) ||
+    (answers.style === 'Rad sa ljudima' &&
+      (text.includes('medicin') ||
+        text.includes('zdrav') ||
+        text.includes('prav') ||
+        text.includes('učitelj') ||
+        text.includes('pedagog') ||
+        text.includes('socijal'))) ||
+    (answers.style === 'Kreativan rad' &&
+      (text.includes('umjet') ||
+        text.includes('arhitekt') ||
+        text.includes('dizajn') ||
+        text.includes('film') ||
+        text.includes('drama'))) ||
+    (answers.style === 'Istraživanje' &&
+      (text.includes('nauk') ||
+        text.includes('istraž') ||
+        text.includes('biolog') ||
+        text.includes('fizik') ||
+        text.includes('hemij'))) ||
+    (answers.style === 'Analitika i brojevi' &&
+      (text.includes('matemat') ||
+        text.includes('ekonom') ||
+        text.includes('računar') ||
+        text.includes('inženjer'))) ||
+    (answers.style === 'Organizacija i menadžment' &&
+      (text.includes('menadž') ||
+        text.includes('organiz') ||
+        text.includes('ekonom') ||
+        text.includes('turiz')));
 
-    const matchesGoal =
-      !answers.goal ||
-      text.includes(goal) ||
-      (answers.goal === 'Brzo zaposlenje' &&
-        (text.includes('primijen') ||
-          text.includes('prakti') ||
-          text.includes('tržište') ||
-          text.includes('zapoš'))) ||
-      (answers.goal === 'Rad u struci' &&
-        (text.includes('struk') ||
-          text.includes('profes') ||
-          text.includes('prakti'))) ||
-      (answers.goal === 'Mogućnost napredovanja' &&
-        (text.includes('master') ||
-          text.includes('doktor') ||
-          text.includes('karijer') ||
-          text.includes('razvoj'))) ||
-      (answers.goal === 'Rad u inostranstvu' &&
-        (text.includes('međunar') ||
-          text.includes('evrops') ||
-          text.includes('mobilnost') ||
-          text.includes('inostran'))) ||
-      (answers.goal === 'Pokretanje sopstvenog posla' &&
-        (text.includes('biznis') ||
-          text.includes('menadž') ||
-          text.includes('preduzet') ||
-          text.includes('ekonom'))) ||
-      (answers.goal === 'Akademska karijera' &&
-        (text.includes('nauk') ||
-          text.includes('istraž') ||
-          text.includes('doktor') ||
-          text.includes('akadem')));
+  const matchesGoal =
+    !answers.goal ||
+    text.includes(goal) ||
+    (answers.goal === 'Brzo zaposlenje' &&
+      (text.includes('primijen') ||
+        text.includes('prakti') ||
+        text.includes('tržište') ||
+        text.includes('zapoš'))) ||
+    (answers.goal === 'Rad u struci' &&
+      (text.includes('struk') ||
+        text.includes('profes') ||
+        text.includes('prakti') ||
+        text.includes('ljekar') ||
+        text.includes('farmaceut') ||
+        text.includes('stomatolog'))) ||
+    (answers.goal === 'Mogućnost napredovanja' &&
+      (text.includes('master') ||
+        text.includes('doktor') ||
+        text.includes('karijer') ||
+        text.includes('razvoj') ||
+        text.includes('specijaliz') ||
+        text.includes('zdravstven'))) ||
+    (answers.goal === 'Rad u inostranstvu' &&
+      (text.includes('međunar') ||
+        text.includes('evrops') ||
+        text.includes('mobilnost') ||
+        text.includes('inostran'))) ||
+    (answers.goal === 'Pokretanje sopstvenog posla' &&
+      (text.includes('biznis') ||
+        text.includes('menadž') ||
+        text.includes('preduzet') ||
+        text.includes('ekonom'))) ||
+    (answers.goal === 'Akademska karijera' &&
+      (text.includes('nauk') ||
+        text.includes('istraž') ||
+        text.includes('doktor') ||
+        text.includes('akadem')));
 
-    return matchesArea && matchesCity && matchesStyle && matchesGoal;
-  });
+  return {
+    faculty,
+    matchesArea,
+    matchesCity,
+    matchesStyle,
+    matchesGoal
+  };
+});
+
+let recommendedFaculties = matchingFaculties
+  .filter((item) =>
+    item.matchesArea &&
+    item.matchesCity &&
+    item.matchesStyle &&
+    item.matchesGoal
+  )
+  .map((item) => item.faculty);
+
+if (recommendedFaculties.length === 0) {
+  recommendedFaculties = matchingFaculties
+    .filter((item) =>
+      item.matchesArea &&
+      item.matchesCity &&
+      item.matchesStyle
+    )
+    .map((item) => item.faculty);
+}
+
+if (recommendedFaculties.length === 0) {
+  recommendedFaculties = matchingFaculties
+    .filter((item) =>
+      item.matchesArea &&
+      item.matchesCity
+    )
+    .map((item) => item.faculty);
+}
+
+if (recommendedFaculties.length === 0) {
+  recommendedFaculties = matchingFaculties
+    .filter((item) => item.matchesArea)
+    .map((item) => item.faculty);
+}
 
   const OptionButton = ({ name, value, selectedValue }) => (
     <button
