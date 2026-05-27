@@ -422,6 +422,8 @@ function FacultyDetails({ faculties, user }) {
             <img
               src={faculty.cover_image || '/images/faculties/ucg.png'}
               alt={faculty.name}
+              loading="lazy"
+              decoding="async"
               style={{
                 width: '100%',
                 height: '100%',
