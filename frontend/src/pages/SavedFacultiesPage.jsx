@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './SavedFacultiesPage.css';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
 function SavedFacultiesPage({ user }) {
+  const navigate = useNavigate();
   const [savedFaculties, setSavedFaculties] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -30,6 +31,9 @@ function SavedFacultiesPage({ user }) {
     const confirmed = window.confirm(
       'Da li želite ukloniti ovaj fakultet iz sačuvanih?'
     );
+  const handleOpenDetails = (facultyId) => {
+    navigate(`/faculties/${facultyId}`);
+  };
 
     if (!confirmed) return;
 
@@ -429,20 +433,25 @@ function SavedFacultiesPage({ user }) {
                     position: 'relative',
                     height: '190px',
                     backgroundColor: '#eef4fb',
-                    overflow: 'hidden'
+                    overflow: 'hidden',
+                      cursor: 'pointer'
                   }}
                 >
-                  <img
-                    src={faculty.cover_image || '/images/faculties/ucg.png'}
-                    alt={faculty.name}
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'cover',
-                      display: 'block'
+              
+                <img
+                 src={faculty.cover_image || '/images/faculties/ucg.png'}
+                 alt={faculty.name}
+                 loading="lazy"
+                 decoding="async"
+                 style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    display: 'block',
+                    cursor: 'pointer'
                     }}
                   />
-
+                 
                   <span
                     style={{
                       position: 'absolute',
@@ -483,17 +492,27 @@ function SavedFacultiesPage({ user }) {
                     Sačuvano za kasnije
                   </p>
 
-                  <h2
-                    style={{
-                      color: '#0f172a',
-                      fontSize: '21px',
-                      margin: '0 0 12px',
-                      lineHeight: 1.35,
-                      fontWeight: '800'
-                    }}
-                  >
-                    {faculty.name}
-                  </h2>
+               <Link
+              to={`/faculties/${faculty.id}`}
+              style={{
+              textDecoration: 'none',
+              color: 'inherit'
+              }}
+                >
+               <h2
+               onClick={() => handleOpenDetails(faculty.id)}
+               style={{
+                  color: '#0f172a',
+                  fontSize: '21px',
+                  margin: '0 0 12px',
+                  lineHeight: 1.35,
+                  fontWeight: '800',
+                  cursor: 'pointer'
+                   }}
+                >
+                   {faculty.name}
+                   </h2>
+                 </Link>
 
                   <p
                     style={{

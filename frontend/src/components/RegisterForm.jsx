@@ -10,6 +10,7 @@ function RegisterForm() {
   });
 
   const [message, setMessage] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
 
   const inputStyle = {
     width: '100%',
@@ -22,6 +23,12 @@ function RegisterForm() {
     backgroundColor: 'white',
     color: '#0f172a',
     outline: 'none'
+  };
+
+  const passwordInputStyle = {
+    ...inputStyle,
+    paddingRight: '48px',
+    marginBottom: 0
   };
 
   const handleChange = (e) => {
@@ -58,6 +65,8 @@ function RegisterForm() {
         email: '',
         password: ''
       });
+
+      setShowPassword(false);
     } catch (err) {
       console.error(err);
       setMessage('Server nije dostupan.');
@@ -114,15 +123,74 @@ function RegisterForm() {
         required
       />
 
-      <input
-        style={inputStyle}
-        name="password"
-        type="password"
-        placeholder="Lozinka"
-        value={formData.password}
-        onChange={handleChange}
-        required
-      />
+      <div
+        style={{
+          position: 'relative',
+          marginBottom: '14px'
+        }}
+      >
+        <input
+          style={passwordInputStyle}
+          name="password"
+          type={showPassword ? 'text' : 'password'}
+          placeholder="Lozinka"
+          value={formData.password}
+          onChange={handleChange}
+          required
+        />
+
+        <button
+          type="button"
+          onClick={() => setShowPassword(!showPassword)}
+          aria-label={showPassword ? 'Sakrij lozinku' : 'Prikaži lozinku'}
+          style={{
+            position: 'absolute',
+            right: '12px',
+            top: '50%',
+            transform: 'translateY(-50%)',
+            backgroundColor: 'transparent',
+            border: 'none',
+            cursor: 'pointer',
+            padding: '4px',
+            lineHeight: 1,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}
+        >
+          {showPassword ? (
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#64748b"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M17.94 17.94A10.94 10.94 0 0 1 12 20C7 20 2.73 16.89 1 12a11.7 11.7 0 0 1 5.06-5.94" />
+              <path d="M10.58 10.58A2 2 0 0 0 12 14a2 2 0 0 0 1.42-.58" />
+              <path d="M9.88 4.24A10.7 10.7 0 0 1 12 4c5 0 9.27 3.11 11 8a11.5 11.5 0 0 1-2.16 3.19" />
+              <path d="M1 1l22 22" />
+            </svg>
+          ) : (
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#64748b"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z" />
+              <circle cx="12" cy="12" r="3" />
+            </svg>
+          )}
+        </button>
+      </div>
 
       <button
         type="submit"
