@@ -50,15 +50,15 @@ function Navbar({ user, onLogout }) {
             overflow: 'hidden'
           }}
         >
-          <img
-            src="/images/logo/ucg.png"
-            alt="UCG logo"
-            style={{
-              width: '34px',
-              height: '34px',
-              objectFit: 'contain'
-            }}
-          />
+         <img
+  src="/logo/ucg.png"
+  alt="UCG logo"
+  style={{
+    width: '34px',
+    height: '34px',
+    objectFit: 'contain'
+  }}
+/>
         </div>
 
         <div>
